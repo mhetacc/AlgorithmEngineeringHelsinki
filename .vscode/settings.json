@@ -1,0 +1,50 @@
+{
+    "macros": {
+        "italic_latex": [
+            {
+                "command": "type",
+                "args": {
+                    "text": "\\textit{}"
+                }
+            },
+            "cursorLeft"
+        ],
+        "markdown_code_block": [
+            {
+                "command": "type",
+                "args": {
+                    "text": "```python```"
+                }
+            },
+            "cursorLeft",
+            "cursorLeft",
+            "cursorLeft"
+        ],
+        "markdown_code_word": [
+            {
+                "command": "type",
+                "args": {
+                    "text": "``"
+                }
+            },
+            "cursorLeft"
+        ]
+
+},
+"editor.wordWrap": "on",
+"cSpell.enabled": true,
+"cSpell.words": [
+    "asyncio",
+    "automagically",
+    "gameplay",
+    "interactability",
+    "interactable",
+    "linearizability",
+    "nonlocal",
+    "Pygame",
+    "Raftian",
+    "subclassing",
+    "Tkinter"
+]
+}
+ 

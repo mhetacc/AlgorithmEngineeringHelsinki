@@ -1,0 +1,14 @@
+[
+    {
+        "key": "ctrl+alt+c",
+        "command": "macros.markdown_code_word"
+    },
+    {
+        "key": "ctrl+i",
+        "command": "macros.italic_latex"
+    },
+    {
+        "key": "ctrl+alt+p",
+        "command": "macros.markdown_code_block"
+    },
+]
