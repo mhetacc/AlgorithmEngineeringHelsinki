@@ -21,3 +21,16 @@ All of the above works only with alphabetic languages, ideographic ones (e.g., C
 
 \subsection{Stemming}
 
+We can consider this step deprecated, since nowadays memory, especially for things like text and arrays (which inverted index basically are), is cheap and bountiful. \\
+The idea is to find a sort of \textit{root} (stem) of the words, and indexing that instead. To make an example: fishnet, fishery, fishing, fishy, fishmonger, can all be boiled down to their stem \textit{fish} [\ref{fig:fishstem}]. 
+
+\begin{figure}[ht] 
+\begin{center}
+\includegraphics[width=.8\textwidth]{imgs/stemming.png}
+\caption{Stemming to stem "fish"\label{fig:fishstem}}
+\end{center}
+\end{figure}
+
+In the example above should be clear already that stemming carry some problems: a user searching for "fishnet" is likely not shopping for fishing equipment, thus most modern search engine skip this normalizing step, and most stemming algorithms (most famous of which is Porter's) are complex, full of exceptions and exceptions to the exceptions, while still failing to unite together the correct words. This step basically reduce query precision while providing very little in return.
+
+\subsection{Stop Words}
