@@ -22,3 +22,6 @@ Ch.50_Conclusions.aux
 Ch.90_Appendix_1.aux
 instructions/instructions_english.aux
 instructions/instructions_finnish.aux
+
+build/*
+!build/HY-CS-main.pdf
