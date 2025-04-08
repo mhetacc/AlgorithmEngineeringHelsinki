@@ -45,3 +45,48 @@ Their quantity is language dependent (e.g., in English they could be around 500 
 \end{wrapfigure}
 
 Thankfully they are so common that if saved as differences between consecutive different values, both their document number and word position lists can be compressed to save space. Because of this, the overhead is not as big as one might think, thus modern search engines (like Google) do not seem to remove them from the index, since doing so put them at a competitive advantage at the expense of a slightly bigger index. \\ 
+
+\section{Inverted Indexes}
+
+Now that we have a set of word tokens, we can start building our inverted indexes (or posting lists): documents are often stored as lists of words, but we invert (hence the name) this concept by storing for each word the list of documents that contain it. There are several variants of this data structure, but at minimum you need to store for each word the list of documents that contain that specific word. \\
+We can change the granularity by adding the frequency of the word in the document, which can be useful for query optimization, or by adding the word position in the document, allowing for in-document queries.\\
+Space used by inverted indexes varies wildly in the range of five to one hundred percent (5-100\%) of the total size of the document indexed, and this is because implementations come in many different variations: some store word positions and some don't, some aggressively pre-process documents and some don't, some dynamically update themselves and some don't, some use complex and powerful compression methods and some don't, and so on. 
+
+Table \ref{tab:sample_docs} show some sample documents, while table \ref{tab:inverted_lists} shows some examples of inverted indexes, with different levels of granularity.
+
+\begin{table}[ht]
+    \begin{center}
+        \begin{tabularx}{\textwidth}{|c|X|}
+            \hline
+            \textbf{ID} & \multicolumn{1}{c|}{\textbf{Contents}}  \\ \hline
+            1 & The only way not to think about money is to have a great deal of it \\ \hline
+            2 & When I was young I thought that money was the most important thing in life; now that I am old I know that it is. \\ \hline
+            3 & A man is usually more careful of money than he is of his principles.\\ \hline
+        \end{tabularx}
+        \caption{Sample document collection\label{tab:sample_docs}}
+    \end{center}
+\end{table}
+
+\begin{table}[ht]
+    \begin{center}
+        \begin{tabular}{|c|c|c|c|}
+            \hline
+            \textbf{Word} & \textbf{Doc List} & \textbf{Frequency} & \textbf{Positions} \\ \hline
+            a & 1, 3 & 1:1, 3:1 & 1:(12), 3:(1) \\ \hline
+            About & 1 & 1:1 & 1:(7) \\ \hline
+            am & 2 & 2:1 & 2:(19) \\ \hline
+            Careful & 3 & 3:1 & 3:(6) \\ \hline
+            deal & 1 & 1:1 & 1:(16) \\ \hline
+            great & 1 & 1:1 & 1:(13) \\ \hline
+            have & 1 & 1:1 & 1:(11) \\ \hline
+            ... & ... & ... & ... \\ \hline
+            money & 1, 2, 3 & 1:2, 2:1, 3:1 & 1:(8), 2:(8), 3:(9) \\ \hline
+            more & 3 & 3:1 & 3:(5) \\ \hline
+            ... & ... & ... & ... \\ \hline
+            when & 2 & 2:1 & 2:(1) \\ \hline
+        \end{tabular}
+        \caption{Inverted lists example, most words omitted\label{tab:inverted_lists}} 
+    \end{center}
+\end{table}
+
+
