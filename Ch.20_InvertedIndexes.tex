@@ -1,12 +1,12 @@
 \chapter{Inverted Indexes\label{invindex}}
 
-Most of the information present in this chapter is thanks to Mahapatra and Biswas "Inverted indexes: Tyoes and techniques" \citep{fromDocToIndex}. 
+Most of the information present in this chapter is thanks to Mahapatra and Biswas "Inverted indexes: Types and techniques" \citep{fromDocToIndex}. 
 
 What we will need for the algorithms presented in the rest of this documents are inverted indexes (also called posting lists). To get them we first need to process documents into lists of words (called \textit{word tokens}), then for each token compute a list of \verb+IDs+ that refer to the documents which contain that specific token. Let's see each step in order.
 
 \section{Document Pre-Processing}
 
-Documents go trough a series of processing steps before being indexed: they get converted into token in the lexing phase, which are then possibly normalized, stemmed or even pruned (removed) entirely.
+Documents go through a series of processing steps before being indexed: they get converted into token in the lexing phase, which are then possibly normalized, stemmed or even pruned (removed) entirely.
 
 \subsection{Lexing}
 
@@ -16,7 +16,7 @@ Documents go trough a series of processing steps before being indexed: they get 
     \caption{Lexing: from text to word tokens\label{fig:lorem_lexing}}
 \end{wrapfigure}
 
-The process of transforming a document into a list of tokens, each of which is a single word, si called \textit{lexing} [\ref{fig:lorem_lexing}]. There often is a maximum length for a single token, as to prevent unbounded index growth in edge cases, and all input is generally first converted into lower-case to normalize it. The all non-punctuation characters are added to the list of tokens one by one, and those that exceed a certain size are often pruned (removed from the corpus). It is not entirely clear how Google and other big companies do this step, and it certainly feels strange to think they employ a simple \textit{brute force}, single scan approach, but as mentioned before it is not easy to find information about it. \\
+The process of transforming a document into a list of tokens, each of which is a single word, si called \textit{lexing} [\ref{fig:lorem_lexing}]. There often is a maximum length for a single token, as to prevent unbounded index growth in edge cases, and all input is generally first converted into lower-case to normalize it. All non-punctuation characters are added to the list of tokens one by one, and those that exceed a certain size are often pruned (removed from the corpus). It is not entirely clear how Google and other big companies do this step, and it certainly feels strange to think they employ a simple \textit{brute force}, single scan approach, but as mentioned before it is not easy to find information about it. \\
 All of the above works only with alphabetic languages, ideographic ones (e.g., Chinese) need specialized search techniques. 
 
 \subsection{Stemming}
@@ -31,12 +31,12 @@ The idea is to find a sort of \textit{root} (stem) of the words, and indexing th
 \end{center}
 \end{figure}
 
-In the example above should be clear already that stemming carry some problems: a user searching for "fishnet" is likely not shopping for fishing equipment, thus most modern search engine skip this normalizing step, and most stemming algorithms (most famous of which is Porter's) are complex, full of exceptions and exceptions to the exceptions, while still failing to unite together the correct words. This step basically reduce query precision while providing very little in return.
+In the example above should be clear already that stemming carry some problems: a user searching for "fishnet" is likely not shopping for fishing equipment, thus most modern search engine skip this normalizing step, and most stemming algorithms (most famous of which is Porter's) are complex, full of exceptions and exceptions to the exceptions, while still failing to unite together the correct words. This step basically reduces query precision while providing very little in return.
 
 \subsection{Stop Words}
 
-Stop words are words that work as connectives of sorts, like \textit{and}, \textit{the}, \textit{is}, \textit{of}, \textit{to}, etc. They are often removed from the corpus, as they do not add any information to the search, and they are usually language dependent, with lists that can be quite long (e.g., in English it could be around 500 words). \\
-For normal queries this does not worsen the result while saving some some space in the index, however in some cases like searching for \textit{to be or not to be} the stop words are actually important, and removing them would make the search fail. \\ 
+\textit{Stop words} are words that work as connectives of sorts, like \textit{and}, \textit{the}, \textit{is}, \textit{of}, \textit{to}, etc. \\
+Their quantity is language dependent (e.g., in English they could be around 500 words) and they are often removed from the corpus which, for normal queries, does not worsen the results while saving space in the index. However in some cases like searching for \textit{to be or not to be} stop words are actually essential, and removing them would make the search fail. \\ 
 
 \begin{wrapfigure}{r}{0.5\textwidth} %this figure will be at the right
     \centering
@@ -44,4 +44,4 @@ For normal queries this does not worsen the result while saving some some space 
     \caption{Stop words pruning\label{fig:stopwords}}
 \end{wrapfigure}
 
-Thankfully stop words are so common that if they are saved as differences between consecutive different values, both their document number and word position lists can be compressed to save space. Because of this, the overhead is not as big as one might think, thus modern search engines (like Google) do not seem to prune them from the index, since doing so would put them at a competitive advantage. \\ 
+Thankfully they are so common that if saved as differences between consecutive different values, both their document number and word position lists can be compressed to save space. Because of this, the overhead is not as big as one might think, thus modern search engines (like Google) do not seem to remove them from the index, since doing so put them at a competitive advantage at the expense of a slightly bigger index. \\ 
