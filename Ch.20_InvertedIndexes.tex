@@ -34,3 +34,14 @@ The idea is to find a sort of \textit{root} (stem) of the words, and indexing th
 In the example above should be clear already that stemming carry some problems: a user searching for "fishnet" is likely not shopping for fishing equipment, thus most modern search engine skip this normalizing step, and most stemming algorithms (most famous of which is Porter's) are complex, full of exceptions and exceptions to the exceptions, while still failing to unite together the correct words. This step basically reduce query precision while providing very little in return.
 
 \subsection{Stop Words}
+
+Stop words are words that work as connectives of sorts, like \textit{and}, \textit{the}, \textit{is}, \textit{of}, \textit{to}, etc. They are often removed from the corpus, as they do not add any information to the search, and they are usually language dependent, with lists that can be quite long (e.g., in English it could be around 500 words). \\
+For normal queries this does not worsen the result while saving some some space in the index, however in some cases like searching for \textit{to be or not to be} the stop words are actually important, and removing them would make the search fail. \\ 
+
+\begin{wrapfigure}{r}{0.5\textwidth} %this figure will be at the right
+    \centering
+    \includegraphics[width=.4\textwidth]{imgs/stopwords.png}
+    \caption{Stop words pruning\label{fig:stopwords}}
+\end{wrapfigure}
+
+Thankfully stop words are so common that if they are saved as differences between consecutive different values, both their document number and word position lists can be compressed to save space. Because of this, the overhead is not as big as one might think, thus modern search engines (like Google) do not seem to prune them from the index, since doing so would put them at a competitive advantage. \\ 
