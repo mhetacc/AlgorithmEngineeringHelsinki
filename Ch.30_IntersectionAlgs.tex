@@ -1,10 +1,39 @@
 \chapter{Intersection Algorithms\label{intersect}}
 
-In this chapter we are going to see a collection of algorithms to compute the intersection of two sorted lists, and all of them are taken from the chapter six of "Pearl of Algorithm Engineering" by Paolo Ferragina, published by Cambridge University Press \citep{Ferragina_2023}. \\
-That being said, we will first look at two of the most commonly used search algorithms around, since we cannot interest two arrays without knowing how to search in them. \\
+In this chapter we are going to see a collection of algorithms to compute the intersection of two \textbf{sorted} lists, taken from the chapter six of "Pearl of Algorithm Engineering" by Paolo Ferragina, published by Cambridge University Press \citep{Ferragina_2023}. \\
+We will first look at two of the most commonly used search algorithms, since we cannot intersect without searching. \\
 
 \section{Search Algorithms}
 
 \subsection{Binary Search}
+
+\begin{figure}[ht] 
+    \begin{center}
+        \includegraphics[width=.8\textwidth]{imgs/Binary_Search_Depiction.png}
+        \caption{Binary search algorithm, source: \href{https://en.wikipedia.org/wiki/Binary_search}{Wikipedia}\label{fig:binsearch}}
+    \end{center}
+\end{figure}
+
+Binary search, also known as logarithmic search or binary chop, is a search algorithm that finds the position of a target value within a sorted array: it compares the target to the middle element of the array and, if they are not equal, it eliminates half of the search space by discarding either the left or right half, depending on whether the target value is less than or greater than the middle element. This process is repeated by iteratively searching into the remaining sub-array until the target value is found or the search space is empty. The pseudocode for the algorithm can be seen at \textit{Algorothm 1} \brref{alg:binsearch}.\\
+Binary search runs in logarithmic time in the worst case, doing $O(\log n)$ comparisons, where $n$ is the number of elements in the array, making it much faster than linear search with large arrays thanks to its scaling.\\
+
+\begin{algorithm}
+    \captionsetup{labelsep=newline}
+    \caption{Pseudocode for binary search algorithm \label{alg:binsearch}}
+    \begin{algorithmic}[1]
+        \State let $L=0$, $R=n-1$
+        \While{$L\leq R$}
+            \State $m=\lfloor (L+R)/2 \rfloor$
+            \If{$A[M] < T$}
+                \State let $L=m+1$
+            \ElsIf{$A[M] > T$}
+                \State $R = m - 1$
+            \Else
+                \State \Return $m$ \Comment{Found}
+            \EndIf
+        \EndWhile
+        \State \Return -1 \Comment{Not found}
+    \end{algorithmic}
+    \end{algorithm}
 
 \subsection{Exponential Search}
