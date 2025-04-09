@@ -1,7 +1,8 @@
+needs to be placed into keybindgs.json
 [
     {
         "key": "ctrl+alt+c",
-        "command": "macros.markdown_code_word"
+        "command": "macros.latex_code_word"
     },
     {
         "key": "ctrl+i",
@@ -10,5 +11,5 @@
     {
         "key": "ctrl+alt+p",
         "command": "macros.markdown_code_block"
-    },
+    }
 ]

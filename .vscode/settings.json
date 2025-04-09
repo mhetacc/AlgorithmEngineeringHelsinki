@@ -9,6 +9,15 @@
             },
             "cursorLeft"
         ],
+        "latex_code_word": [
+            {
+                "command": "type",
+                "args": {
+                    "text": "\\verb++"
+                }
+            },
+            "cursorLeft"
+        ],
         "markdown_code_block": [
             {
                 "command": "type",
@@ -18,15 +27,6 @@
             },
             "cursorLeft",
             "cursorLeft",
-            "cursorLeft"
-        ],
-        "markdown_code_word": [
-            {
-                "command": "type",
-                "args": {
-                    "text": "``"
-                }
-            },
             "cursorLeft"
         ]
 
