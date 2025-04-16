@@ -38,7 +38,7 @@ Binary search runs in logarithmic time in the worst case, doing $O(\log n)$ comp
     \end{algorithmic}
 \end{algorithm}
 
-\subsection{Exponential Search}
+\subsection{Exponential Search \label{sec:expsearch}}
 
 \begin{figure}[H] 
     \begin{center}
@@ -174,6 +174,8 @@ If this keeps occurring in all recursive calls, the total number of them will be
 On the other hand, if we have both balanced partitions so that $b_{m/2}$ not only falls inside \textit{A} but coincides with the median element $a_{n/2}$, the time complexity can be expressed via the recurrence relation $T(n, m) = O(\log n) + 2T(\frac{n}{2}, \frac{m}{2})$, with the base case $T(n,m)=O(1)$ whenever $n,m \leq 1$.\\
 This recurrence has the solution $T(n,m)=O(m(1+\log \frac{n}{m})) \forall m \leq n$, which is an optimal time complexity in the comparison model.
 
+That being said, despite its optimal time complexity, the mutual-partitioning paradigm is heavily based on recursive calls and binary searching, and both paradigms offer poor performance in a disk-based setting when sequences are long hence requiring a large number of both dynamic memory allocations (recursive calls) and random memory access (\textit{binary search} steps).
+
 \begin{algorithm}
     \captionsetup{labelsep=newline}
     \caption{Pseudocode for divide and search algorithm \label{alg:divandsearch}}
@@ -186,5 +188,50 @@ This recurrence has the solution $T(n,m)=O(m(1+\log \frac{n}{m})) \forall m \leq
             \State Add \textit{p} to result
         \EndIf
         \State \textit{Divide and search} on $A[ j + 1, n] \cap B[m/2 + 1, m]$
+    \end{algorithmic}
+\end{algorithm}
+
+\subsection{Doubling Search \label{galloping}}
+
+\begin{figure}[H] 
+    \begin{center}
+        \includegraphics[width=.8\textwidth]{imgs/galloping.png}
+        \caption{Doubling search algorithm \label{fig:galloping}}
+    \end{center}
+\end{figure}
+
+Also called \textit{exponential search} or \textit{galloping search}, this paradigm is more or less what we presented in the search algorithm \textit{exponential search} \brref{sec:expsearch}: assuming $m=|B| \leq n=|A|$, we search of each element $b_j$ of \textit{B} into \textit{A} by jumping trough it with exponentially bigger steps that increase by a factor of $2^k$, meaning that we compare $b_j$ with $A[0]$, $A[1]$, $A[2]$, $A[4]$, $A[8]$, $A[16]$, $A[32]$, and so on, until we find that either $b_j<A[i+2^k]$ for some \textit{k}, or we have jumped out of the array since $i+2^k>n$.\\
+Then we perform a \textit{binary search} \brref{sec:binsearch} for $b_j$ between $A[i+2^{k-1}]$ and $A[min(i+2^k, n)]$. $A[0, i+2^{k-1}]$ will be discarded from the subsequent searches.\\
+The pseudocode of the algorithm can be seen at \textit{Algorithm} \brref{alg:galloping}, which is a bit different from the one we saw in \textit{exponential search} section \brref{sec:expsearch}, so it can be seen as an extra resource. Both works very similarly.
+
+Correctness is again immediate, while deriving time complexity will require some reasoning: we denote with $\Delta_i$ the size of the sub-array of \textit{A} where $b_j$ could be found.
+We then say that:
+\begin{itemize} 
+    \item $b_j \geq i+2^{k-1}$ i.e. previous step
+    \item $b_j<min(i+2^k,n)$ i.e. current step or end of \textit{A}
+\end{itemize}
+
+We can therefore write $2^{k-1} \leq i-(i-1)$ where \textit{i} and \textit{(i-1)} are current and previous step respectively, and combining this inequality with $\Delta_i$ we get $\Delta_i \leq 2^{k-1} \leq i-(i-1)$. \\
+At this point we can estimate the total lengt of search sub-arrays of \textit{A}: $\sum_{i=1}^{m} \Delta_i \leq \sum_{i=1}^{m} (i-(i-1)) \leq n$, because the latter is a telescopic sum in wich consecutive terms cancel out.\\
+For every \textit{i}, the algorithm executes $O(1+ \log \Delta_i)$ steps, thus summing for $i = 1,2,...,m$ (since $m=|B|$) we get a total time complexity of $\sum_{i=1}^m O(1+ \log \Delta_i)=O(\sum_{i=1}^{m}(1+log \Delta_i))=O(m+m \log \sum_{i=1}^m \frac{\Delta_i}{m})=O(m(1+ \log \frac{n}{m}))$.\\
+This is the same time complexity we got for the \textit{divide and search} \brref{alg:divandsearch} algorithm, but this present algorithm paradigm is iterative, thus does not require dynamic memory allocation. Moreover, it calls the \textit{binary search} \brref{sec:binsearch} on a sub-array of \textit{A} needing less disk accesses.
+
+\begin{algorithm}
+    \captionsetup{labelsep=newline}
+    \caption{Pseudocode for doubling search algorithm \label{alg:galloping}}
+    \begin{algorithmic}[1]
+        \State Let $m=|B| \leq n=|A|$
+        \State Let $i=0$
+        \ForAll{$j=0$ to $m-1$}
+            \State Let $k=0$
+            \While{$B[j] > A[i+2^k]$ and $i+2^k \leq n$}
+                \State $k=k+1$ \Comment Increment exponent
+            \EndWhile
+            \State $i'$ = \textit{binary search} into $A[i+2^{k-1}+1, min(i+2^k),n]$
+            \If{$a_{i'}=b_j$}
+                \State Add $b_j$ to result
+            \EndIf
+            \State $i=i'$ \Comment Update $i$ to the last position
+        \EndFor
     \end{algorithmic}
 \end{algorithm}
