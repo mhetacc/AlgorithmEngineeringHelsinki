@@ -72,8 +72,6 @@ The pseudocode can be seen at \textit{Algorithm} \brref{alg:expsearch}.\\
     \end{algorithmic}
 \end{algorithm}
 
-\subsection{Extrapolation and Intrapolation \label{sec:extrapol}}
-
 TODO maye or maybe not 
 
 \section{Intersection Algorithms}
@@ -140,7 +138,7 @@ In the case that $n \ll m$ the classic \textit{binary search} can be helpful sin
     \end{algorithmic}
 \end{algorithm}
 
-\subsection{Divide and Search}
+\subsection{Divide and Search \label{sec:divandsearch}}
 
 \begin{figure}[H] 
     \begin{center}
@@ -213,7 +211,8 @@ We then say that:
 
 We can therefore write $2^{k-1} \leq i-(i-1)$ where $i$ and $(i-1)$ are current and previous step respectively, and combining this inequality with $\Delta_i$ we get $\Delta_i \leq 2^{k-1} \leq i-(i-1)$. \\
 At this point we can estimate the total lengt of search sub-arrays of \textit{A}: $\sum_{i=1}^{m} \Delta_i \leq \sum_{i=1}^{m} (i-(i-1)) \leq n$, because the latter is a telescopic sum in wich consecutive terms cancel out.\\
-For every \textit{i}, the algorithm executes $O\left(1+ \log \Delta_i\right)$ steps, thus summing for $i = 1,2,...,m$ (since $m=|B|$) we get a total time complexity of $\sum_{i=1}^m O\left(1+ \log \Delta_i\right)=O\left(\sum_{i=1}^{m}\left(1+log \Delta_i\right)\right)=O\left(m+m \log \sum_{i=1}^m \frac{\Delta_i}{m}\right)=O\left(m\left(1+ \log \frac{n}{m}\right)\right)$.\\
+For every \textit{i}, the algorithm executes $O\left(1+ \log \Delta_i\right)$ steps, thus summing for $i = 1,2,...,m$ (since $m=|B|$) we get a total time complexity of:\\
+$\sum_{i=1}^m O\left(1+ \log \Delta_i\right)=O\left(\sum_{i=1}^{m}\left(1+log \Delta_i\right)\right)=O\left(m+m \log \sum_{i=1}^m \frac{\Delta_i}{m}\right)=O\left(m\left(1+ \log \frac{n}{m}\right)\right)$.\\
 This is the same time complexity we got from the \textit{divide and search} \brref{alg:divandsearch} algorithm, except with a iterative paradigm, which thus does not require dynamic memory allocation. Moreover, it calls the \textit{binary search} \brref{sec:binsearch} on a sub-array of \textit{A} needing less disk accesses. Unfortunately, it falls short with very large lists, since galloping through them may require moving them in chunks back and forth from memory. It would thus be ideal to \textit{compress} in some way the vector \textit{A}.\\
 
 \begin{algorithm}
@@ -237,6 +236,13 @@ This is the same time complexity we got from the \textit{divide and search} \brr
 \end{algorithm}
 
 \subsection{Two-Level Storage Approach}
+
+\begin{figure}[H] 
+    \begin{center}
+        \includegraphics[width=.8\textwidth]{imgs/twolevel_storage.png}
+        \caption{Two-level storage search algorithm \label{fig:twolevelstorage}}
+    \end{center}
+\end{figure}
 
 Since most of the time we can consider physical memory as divided in two, namely cache and RAM, engineers took advantage of this by adopting a two-level storage approach: the main idea is to preprocess a collection of lists, logically partitioning each of them into blocks of size \textit{L} (final block may be shorter), and copying the first element of each block into an auxiliary sequence. Then, merge them and compute the intersection: elements of block $merged\_list[i+1]$ will be contained (if present) in block $merged\_list[i]$.\\
 Lets see a simplified implementation where we preprocess only the longer sequence: say we have two lists such that $m=|B| \leq n=|A|$, we then divide \textit{A} in $\left\lceil \frac{n}{L} \right\rceil$ blocks of size \textit{L} and we save the first element of each block, called \textit{guides}, in a new list $A'$, effectively compressing the original list. \\
@@ -262,5 +268,44 @@ Summing up the time complexity of all steps we get that the algorithm has:
 
 Were \textit{B} is the disk-page size of the two-level memory model.
 
+\section{Melding Algorithms}
 
+All the algorithms that we have seen until this point concern themselves with intersecting only two lists, even though they are easily extendable to \textit{k} list intersections. Now we will see a collection of algorithms that can be used to intersect \textit{k} sets. Most of the algorithm shown are taken from the article "An Experimental Investigation of Set Intersection Algorithms for Text Searching" by Birbay and López-Ortiz \citep{birbay_ortiz}.\\
 
+\subsection{Baeza-Yates and Baeza-Yates Sorted}
+
+One of the oldest algorithms presented in this survey, it is commonly found in the literature as a baseline for comparison, although it does not find much use in the real-world anymore. It was originally intended for the intersection of two sorted lists: it takes the median element of the smaller list and searches for it in the larger list, and it adds it to the result if it finds it.\\   
+Since it will always find either and element (e.g. $b_j$) or a position where it could have been (e.g. $a_i \leq b_j \leq a_{i+1}$), it recursively calls itself on the two sub-lists in which each list can be split according to the median element. This approach is very similar to the \textit{divide and search} \brref{sec:divandsearch} algorithm.\\
+To adapt this algorithm for \textit{k} sets, Baeza-Yates suggests to intersect the lists two-by-two, starting with the first two smallest ones. Since the result of the intersection may not be sorted, the result set needs to be sorted before going to the next list. The pseudocode can be seen at \textit{Algorithm} \brref{alg:baezayates}.
+
+To avoid the cost of sorting each intermediate result, a minor variant can be used, called \textit{Baeza-Yates Sorted}, which move the elements to te result only at the last recursive step, ensuring they are added in order.
+
+\begin{algorithm}
+    \captionsetup{labelsep=newline}
+    \caption{Pseudocode for Baeza-Yates algorithm \label{alg:baezayates}}
+    \begin{algorithmic}[1]
+        \Function{Baeza-Yates}{(set,k)}
+            \State Sort sets by size \big($\big|set[0]\big| \leq \ldots \leq \big|set[k]\big|$\big)
+            \ForAll{$i=1$ to $k$}
+                \State $set[0] = BYinteresct\big(set[0], set[i], 0, \big|set[0]\big|-1, 0, \big|set[i]\big|-1\big)$
+                \State Sort $set[0]$ 
+            \EndFor
+        \EndFunction
+
+        \Statex
+
+        \Function{BYintersect}{(setA, setB, minA, maxA, minB, maxB)}
+            \If{$setA = \emptyset$ or $setB=\emptyset$}
+                \State\Return $\emptyset$
+            \EndIf
+            \State Let $m=\frac{(minA+maxA)}{2}$
+            \State Let $median_A=setA[m]$
+            \State Search for $median_A$ in $setB$
+            \If{$median\_A$ found}
+                \State Add $median\_A$ to result
+            \EndIf
+            \State Let $r$ be the position of $median\_A$ in $setB$
+            \State Solve the intersection recursively on both sides of $r$ and $m$ in each set
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
