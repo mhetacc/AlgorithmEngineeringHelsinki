@@ -284,7 +284,7 @@ To avoid the cost of sorting each intermediate result, a minor variant can be us
     \captionsetup{labelsep=newline}
     \caption{Pseudocode for Baeza-Yates algorithm \label{alg:baezayates}}
     \begin{algorithmic}[1]
-        \Function{Baeza-Yates}{(set,k)}
+        \Function{Baeza-Yates}{set,k}
             \State Sort sets by size \big($\big|set[0]\big| \leq \ldots \leq \big|set[k]\big|$\big)
             \ForAll{$i=1$ to $k$}
                 \State $set[0] = BYinteresct\big(set[0], set[i], 0, \big|set[0]\big|-1, 0, \big|set[i]\big|-1\big)$
@@ -294,12 +294,12 @@ To avoid the cost of sorting each intermediate result, a minor variant can be us
 
         \Statex
 
-        \Function{BYintersect}{(setA, setB, minA, maxA, minB, maxB)}
+        \Function{BYintersect}{setA, setB, minA, maxA, minB, maxB}
             \If{$setA = \emptyset$ or $setB=\emptyset$}
                 \State\Return $\emptyset$
             \EndIf
             \State Let $m=\frac{(minA+maxA)}{2}$
-            \State Let $median_A=setA[m]$
+            \State Let $median\_A=setA[m]$
             \State Search for $median_A$ in $setB$
             \If{$median\_A$ found}
                 \State Add $median\_A$ to result
@@ -307,5 +307,28 @@ To avoid the cost of sorting each intermediate result, a minor variant can be us
             \State Let $r$ be the position of $median\_A$ in $setB$
             \State Solve the intersection recursively on both sides of $r$ and $m$ in each set
         \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+
+\subsection{Sequential and Random Sequential}
+
+\begin{wrapfigure}{r}{0.5\textwidth} %this figure will be at the right
+    \centering
+    \includegraphics[width=.4\textwidth]{imgs/sequential.png}
+    \caption{Sequential melding algorithm\label{fig:sequential}}
+\end{wrapfigure}
+
+Introduced by Barbay and Kenyon, it takes a collections of \textit{k} sorted sets ordered by size (ascending). Then it picks elements from the smallest one and searches for them in the other sets via \textit{galloping search} \brref{galloping}, one set at a time.\\
+There exists a randomized variants which instead of going through the sets in order, it does so randomly (of course, it only chooses not-yet-checked sets).
+
+The pseudocode can be seen at \textit{Algorithm} \brref{alg:sequential}.
+
+\begin{algorithm}
+    \captionsetup{labelsep=newline}
+    \caption{Pseudocode for sequential algorithm \label{alg:baezayates}}
+    \begin{algorithmic}[1]
+        \State Choose eliminator $e=set[0][0]$
+        \State Let $i=0$
+        \While{$e \neq \infty$}
     \end{algorithmic}
 \end{algorithm}
