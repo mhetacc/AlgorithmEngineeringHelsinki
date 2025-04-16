@@ -7,7 +7,7 @@ We will first look at two of the most commonly used search algorithms, since we 
 
 \subsection{Binary Search \label{sec:binsearch}}
 
-\begin{figure}[ht] 
+\begin{figure}[H] 
     \begin{center}
         \includegraphics[width=.8\textwidth]{imgs/Binary_Search_Depiction.png}
         \caption{Binary search algorithm, source: \href{https://en.wikipedia.org/wiki/Binary_search}{Wikipedia}\label{fig:binsearch}}
@@ -100,7 +100,7 @@ The (very short) pseudocode can be seen at \textit{Algorithm} \brref{alg:brutefo
 
 \subsection{Bunny Race}
 
-\begin{figure}[ht] 
+\begin{figure}[H] 
     \begin{center}
         \includegraphics[width=.8\textwidth]{imgs/bunny_search.png}
         \caption{Bunny race algorithm \label{fig:bunnyrace}}
@@ -137,5 +137,54 @@ In the case that $n \ll m$ the classic \textit{binary search} can be helpful sin
                 \State $j=j+1$
             \EndIf
         \EndWhile
+    \end{algorithmic}
+\end{algorithm}
+
+\subsection{Divide and Search}
+
+\begin{figure}[H] 
+    \begin{center}
+        \includegraphics[width=.8\textwidth]{imgs/divide_and_search.png}
+        \caption{Divide and search algorithm \label{fig:divandsearch}}
+    \end{center}
+\end{figure}
+
+Also called \textit{mutual partitioning}, this approach adopt a classic algorithmic paradigm, namely \textit{divide and conquer}, famously used to design the \textit{quick sort} algorithm (which can be visualized \href{https://en.wikipedia.org/wiki/Quicksort}{here}).\\
+Let us assume $m=|B| \leq n=|A|$. We select the median element of $B$, $b_{m/2}$, as a \textit{pivot} and search for it in the longer sequence $A$ using the \textit{binary search} \brref{sec:binsearch} algorithm.\\
+Two cases may occur: 
+
+\begin{itemize}
+    \item[i.] \textit{pivot} is one of the elements fo the intersection;
+    \item[ii.] $b_{m/2} \notin A$, e.g, $A[j]<b_{m/2}<A[j+1]$.
+\end{itemize}
+
+In both cases the algorithm proceeds \textit{recursively} by calling itself on the two sub-lists in which each list ($A$ and $B$) has been split according to the \textit{pivot} element, thus computing the following intersections:
+
+\begin{itemize}
+    \item $A[1, j] \cap B[1, m/2-1]$
+    \item $A[ j+1, n] \cap B[m/2+1, m]$.
+\end{itemize}
+
+In simpler terms: we pick the middle element of the smaller list, search for it in the bigger list, split both lists and repeat the process recursively on the remaining sub-lists, then again, then again, then again, until we reach the base case where each list is of size one.\\
+The pseudocode of the algorithm can be seen at \textit{Algorithm} \brref{alg:divandsearch}.\\
+
+Correctness follows, while for evaluating time complexity we need to identify the worst case. \\
+Let us start with the case where \textit{pivot} falls outside \textit{A}, meaning that one of the two parts is empty and thus the corresponding half of \textit{B} can be ignored. So, one \textit{binary search} \brref{sec:binsearch} over \textit{A}, costing $O(\log n)$ time, has discarded half of \textit{B}.\\
+If this keeps occurring in all recursive calls, the total number of them will be $O(\log m)$, which leads us to a time complexity of $O(\log m \log n)$.\\
+On the other hand, if we have both balanced partitions so that $b_{m/2}$ not only falls inside \textit{A} but coincides with the median element $a_{n/2}$, the time complexity can be expressed via the recurrence relation $T(n, m) = O(\log n) + 2T(\frac{n}{2}, \frac{m}{2})$, with the base case $T(n,m)=O(1)$ whenever $n,m \leq 1$.\\
+This recurrence has the solution $T(n,m)=O(m(1+\log \frac{n}{m})) \forall m \leq n$, which is an optimal time complexity in the comparison model.
+
+\begin{algorithm}
+    \captionsetup{labelsep=newline}
+    \caption{Pseudocode for divide and search algorithm \label{alg:divandsearch}}
+    \begin{algorithmic}[1]
+        \State Let $m=|B| \leq n=|A|$
+        \State Pick \textit{pivot} $p=b_{\lfloor m/2 \rfloor}$
+        \State \textit{Binary search} for \textit{p} in \textit{A} \Comment Say $a_j \leq p < a_{j+1}$
+        \State \textit{Divide and search} on $A[1, j] \cap B[1, m/2 - 1]$
+        \If{$p=a_j$}
+            \State Add \textit{p} to result
+        \EndIf
+        \State \textit{Divide and search} on $A[ j + 1, n] \cap B[m/2 + 1, m]$
     \end{algorithmic}
 \end{algorithm}
