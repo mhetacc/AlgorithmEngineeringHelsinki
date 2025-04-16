@@ -318,17 +318,50 @@ To avoid the cost of sorting each intermediate result, a minor variant can be us
     \caption{Sequential melding algorithm\label{fig:sequential}}
 \end{wrapfigure}
 
-Introduced by Barbay and Kenyon, it takes a collections of \textit{k} sorted sets ordered by size (ascending). Then it picks elements from the smallest one and searches for them in the other sets via \textit{galloping search} \brref{galloping}, one set at a time.\\
+Introduced by Barbay and Kenyon, it takes a collections of \textit{k} sorted sets ordered by size (ascending). Then it picks elements from the smallest one ($S_0$) and searches for them in the other sets ($S_{1 \ldots k-1}$) via \textit{galloping search} \brref{galloping}, one set at a time. It progressively check whether the element can be found in the set its looking into: if $key=1$ and $S_i[j]=7$ there is no need to keep checking $S_i$.
 There exists a randomized variants which instead of going through the sets in order, it does so randomly (of course, it only chooses not-yet-checked sets).
 
-The pseudocode can be seen at \textit{Algorithm} \brref{alg:sequential}.
+The pseudocode of a simplified version can be seen at \textit{Algorithm} \brref{alg:sequential}, which has a time complexity of $O\left(k \cdot m^2 \left(1+ \log \frac{n}{m}\right)\right)$ since it performs \textit{k-galloping searches} for each element of the smallest set. We can let \textit{n} to be the size of the biggest list.\\
+Another version of the algorithm, which considers also the eliminator and therefore is more efficient, can be seen at \textit{Algorithm} \brref{alg:sequential2}.
 
 \begin{algorithm}
     \captionsetup{labelsep=newline}
-    \caption{Pseudocode for sequential algorithm \label{alg:baezayates}}
+    \caption{Pseudocode for sequential algorithm \label{alg:sequential}}
     \begin{algorithmic}[1]
-        \State Choose eliminator $e=set[0][0]$
-        \State Let $i=0$
+        \ForAll{$i=0$ to $|S_0|$}
+            \State Let $key=S_0[i]$
+            \State Let $counter=0$
+            \ForAll{$j=1$ to $k-1$}
+                \State \textit{Galloping search} for $key$ in $S_j$
+                \If{$key$ found}
+                    \State $counter = counter+1$
+                \EndIf
+            \EndFor
+            \If{$counter=k-1$}
+                \State Add $key$ to result
+            \EndIf
+        \EndFor
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+    \captionsetup{labelsep=newline}
+    \caption{Pseudocode for sequential with eliminator algorithm \label{alg:sequential2}}
+    \begin{algorithmic}[1]
+        \State Let eliminator be $e=S_0[0]$ 
+        \State Let $i=1$
+        \State Let $counter=0$
         \While{$e \neq \infty$}
+            \State Search for $e$ in $S_i$
+            \If{$e$ found}
+                \State $counter=counter+1$
+                \If{$counter=k-1$}
+                    \State Add $e$ to result
+                \EndIf
+            \Else
+                \State $e=S_i\left[succ(e)\right]$
+            \EndIf
+            \State $i=i+1$ mod $k$
+        \EndWhile
     \end{algorithmic}
 \end{algorithm}
