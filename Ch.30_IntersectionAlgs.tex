@@ -238,20 +238,20 @@ This is the same time complexity we got from the \textit{divide and search} \brr
 
 \subsection{Two-Level Storage Approach}
 
-Since most of the time we can imagine physical data as divided in two, namely cache and RAM, engineers took advantage of this by adopting a two-level storage approach: the main idea is to preprocess a collection of lists, locally partitioning each of them into blocks of size \textit{L} (final block may be shorter), and copy the first element of each block into an auxiliary sequence. We then merge them and use them to compute the intersection: block $merged\_list[i+1]$ will contain elements in the block $merged\_list[i]$.\\
-Lets see a simplified implementation where we preprocess only the longer sequence: lets say we have two lists such that $m=|B| \leq n=|A|$, we then divide \textit{A} in $\left\lceil \frac{n}{L} \right\rceil$ blocks of size \textit{L} and we save the first element of each block, called \textit{guides}, in a new list $A'$. \\
+Since most of the time we can consider physical memory as divided in two, namely cache and RAM, engineers took advantage of this by adopting a two-level storage approach: the main idea is to preprocess a collection of lists, logically partitioning each of them into blocks of size \textit{L} (final block may be shorter), and copying the first element of each block into an auxiliary sequence. Then, merge them and compute the intersection: elements of block $merged\_list[i+1]$ will be contained (if present) in block $merged\_list[i]$.\\
+Lets see a simplified implementation where we preprocess only the longer sequence: say we have two lists such that $m=|B| \leq n=|A|$, we then divide \textit{A} in $\left\lceil \frac{n}{L} \right\rceil$ blocks of size \textit{L} and we save the first element of each block, called \textit{guides}, in a new list $A'$, effectively compressing the original list. \\
 We then use the \textit{merge procedure} (which can be seen \href{https://en.wikipedia.org/wiki/Merge_algorithm}{here}) to merge $A'$ and \textit{B} into a new list \textit{Merged}, which will contain each \textit{guide} of \textit{A} and all elements of \textit{B} interspersed between them. The list is, of course, sorted.\\
-Now we can find the elements of \textit{B} in the respective preceding \textit{guide} of \textit{A}, and have effectively compressed \textit{A}. Lets clarify, we have:
+Now we can find the elements of \textit{B} in the respective preceding \textit{guide} of \textit{A}. Lets clarify, we have:
 
 \begin{itemize}
-    \item $Merged[k] = A[i]$
-    \item $Merged[k+1 \ldots k+\alpha] = B[j \ldots j+\alpha]$
-    \item $Merged[k+\alpha +1] = A[i+1]$
+    \item $Merged[k] = A'[i]$
+    \item $Merged[k+1 \ldots k+1+\alpha] = B[j \ldots j+\alpha]$
+    \item $Merged[k+\alpha +2] = A'[i+1]$
 \end{itemize}
 
-Thus the elements of \textit{B}, $b_j \ldots b_{j+\alpha}$ can all be found in the block of \textit{guide} $A[i]$.
+Thus the elements of \textit{B}, $b_j \ldots b_{j+\alpha}$ can all be found in the block of \textit{guide} $A'[i]$.
 
-Regarding time complexity, creating the list of \textit{guides} takes linear time over the size of \textit{A}. We then apply the \textit{merge procedure} to fuse together $A'$ and \textit{B} in $O\left(\frac{n}{L} +m \right)$ time, and finally we search for $b_j \ldots b_{j+\alpha}$ in the block of \textit{guide} $A[i]$ using the \textit{bunny race} \brref{sec:bunnyrace} algorithm in time $O\left(|A_i| + |B_j|\right) = O\left(L+|B_j|\right)$ where $|A_i| = \big|A[i \ldots i+1]\big|$ and $|B_j| = \big|B[j \ldots j+\alpha]\big|$.\\
+Regarding time complexity, creating the list of \textit{guides} takes linear time over the size of \textit{A}. We then apply the \textit{merge procedure} to fuse together $A'$ and \textit{B} in $O\left(\frac{n}{L} +m \right)$ time, and finally we search for $b_j \ldots b_{j+\alpha}$ in the block of \textit{guide} $A[i]$ using the \textit{bunny race} \brref{sec:bunnyrace} algorithm in time $O\left(|A_i| + |B_j|\right) = O\left(L+|B_j|\right)$ where $|A_i|$ is the size of the block of $A'[i]$, and $|B_j| = \big|B[j \ldots j+\alpha]\big|$.\\
 This algorithm is executed over all non-empty pairs $(A_i, B_j)$, which are no more than \textit{m} since $B = \cup_j B_j$, thus the total time taken by this step is $O(Lm+m)$.\\
 Summing up the time complexity of all steps we get that the algorithm has:
 
