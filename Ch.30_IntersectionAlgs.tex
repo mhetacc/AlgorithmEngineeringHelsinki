@@ -98,7 +98,7 @@ The (very short) pseudocode can be seen at \textit{Algorithm} \brref{alg:brutefo
     \end{algorithmic}
 \end{algorithm}
 
-\subsection{Bunny Race}
+\subsection{Bunny Race \label{sec:bunnyrace}}
 
 \begin{figure}[H] 
     \begin{center}
@@ -117,8 +117,8 @@ In regards to time complexity, we just need to note that at each step the algori
 This time complexity is significantly better than the \textit{brute force} \brref{alg:bruteforce} approach, since it can compute a 2-word query in $10^{-3}$ seconds. \\
 The pseudocode can be seen at \textit{Algorithm} \brref{alg:bunnyrace}.
 
-In the case that $n=\Theta (m)$ this algorithm is optimal, because we need to process the smallest set, thus $\Omega(min(n,m))$ is an obvious lower bound. Moreover, this procedure is also optimal in the disk model since it takes $O(\frac{n}{B})$ I/Os. \\
-In the case that $n \ll m$ the classic \textit{binary search} can be helpful since we can design an algorithm that search in $A$ for each elements of $B$ in $O(m \log n)$ time, which is better than $O(n+m)$ when $m=o(\frac{n}{\log n})$.
+In the case that $n=\Theta (m)$ this algorithm is optimal, because we need to process the smallest set, thus $\Omega(min(n,m))$ is an obvious lower bound. Moreover, this procedure is also optimal in the disk model since it takes $O \left(\frac{n}{B}\right)$ I/Os. \\
+In the case that $n \ll m$ the classic \textit{binary search} can be helpful since we can design an algorithm that search in $A$ for each elements of $B$ in $O(m \log n)$ time, which is better than $O(n+m)$ when $m=o\left(\frac{n}{\log n}\right)$.
 
 \begin{algorithm}
     \captionsetup{labelsep=newline}
@@ -161,18 +161,18 @@ Two cases may occur:
 In both cases the algorithm proceeds \textit{recursively} by calling itself on the two sub-lists in which each list ($A$ and $B$) has been split according to the \textit{pivot} element, thus computing the following intersections:
 
 \begin{itemize}
-    \item $A[1, j] \cap B[1, m/2-1]$
-    \item $A[ j+1, n] \cap B[m/2+1, m]$.
+    \item $A\big[1, j\big] \cap B\big[1, \frac{m}{2}-1\big]$
+    \item $A\big[ j+1, n\big] \cap B\big[\frac{m}{2}+1, m\big]$.
 \end{itemize}
 
 In simpler terms: we pick the middle element of the smaller list, search for it in the bigger list, split both lists and repeat the process recursively on the remaining sub-lists, then again, then again, then again, until we reach the base case where each list is of size one.\\
-The pseudocode of the algorithm can be seen at \textit{Algorithm} \brref{alg:divandsearch}.\\
+The pseudocode of the algorithm can be seen at \textit{Algorithm} \brref{alg:divandsearch}.
 
 Correctness follows, while for evaluating time complexity we need to identify the worst case. \\
 Let us start with the case where \textit{pivot} falls outside \textit{A}, meaning that one of the two parts is empty and thus the corresponding half of \textit{B} can be ignored. So, one \textit{binary search} \brref{sec:binsearch} over \textit{A}, costing $O(\log n)$ time, has discarded half of \textit{B}.\\
 If this keeps occurring in all recursive calls, the total number of them will be $O(\log m)$, which leads us to a time complexity of $O(\log m \log n)$.\\
-On the other hand, if we have both balanced partitions so that $b_{m/2}$ not only falls inside \textit{A} but coincides with the median element $a_{n/2}$, the time complexity can be expressed via the recurrence relation $T(n, m) = O(\log n) + 2T(\frac{n}{2}, \frac{m}{2})$, with the base case $T(n,m)=O(1)$ whenever $n,m \leq 1$.\\
-This recurrence has the solution $T(n,m)=O(m(1+\log \frac{n}{m})) \forall m \leq n$, which is an optimal time complexity in the comparison model.
+On the other hand, if we have both balanced partitions so that $b_{m/2}$ not only falls inside \textit{A} but coincides with the median element $a_{n/2}$, the time complexity can be expressed via the recurrence relation $T(n, m) = O(\log n) + 2T \left(\frac{n}{2}, \frac{m}{2}\right)$, with the base case $T(n,m)=O(1)$ whenever $n,m \leq 1$.\\
+This recurrence has the solution $T(n,m)=O \big(m \big(1+\log \frac{n}{m}\big)\big)$ for each $m \leq n$, which is an optimal time complexity in the comparison model.
 
 That being said, despite its optimal time complexity, the mutual-partitioning paradigm is heavily based on recursive calls and binary searching, and both paradigms offer poor performance in a disk-based setting when sequences are long hence requiring a large number of both dynamic memory allocations (recursive calls) and random memory access (\textit{binary search} steps).
 
@@ -183,11 +183,11 @@ That being said, despite its optimal time complexity, the mutual-partitioning pa
         \State Let $m=|B| \leq n=|A|$
         \State Pick \textit{pivot} $p=b_{\lfloor m/2 \rfloor}$
         \State \textit{Binary search} for \textit{p} in \textit{A} \Comment Say $a_j \leq p < a_{j+1}$
-        \State \textit{Divide and search} on $A[1, j] \cap B[1, m/2 - 1]$
+        \State \textit{Divide and search} on $A\big[1, j\big] \cap B\big[1, \frac{m}{2}-1\big]$
         \If{$p=a_j$}
             \State Add \textit{p} to result
         \EndIf
-        \State \textit{Divide and search} on $A[ j + 1, n] \cap B[m/2 + 1, m]$
+        \State \textit{Divide and search} on $A\big[ j+1, n\big] \cap B\big[\frac{m}{2}+1, m\big]$
     \end{algorithmic}
 \end{algorithm}
 
@@ -200,21 +200,21 @@ That being said, despite its optimal time complexity, the mutual-partitioning pa
     \end{center}
 \end{figure}
 
-Also called \textit{exponential search} or \textit{galloping search}, this paradigm is more or less what we presented in the search algorithm \textit{exponential search} \brref{sec:expsearch}: assuming $m=|B| \leq n=|A|$, we search of each element $b_j$ of \textit{B} into \textit{A} by jumping trough it with exponentially bigger steps that increase by a factor of $2^k$, meaning that we compare $b_j$ with $A[0]$, $A[1]$, $A[2]$, $A[4]$, $A[8]$, $A[16]$, $A[32]$, and so on, until we find that either $b_j<A[i+2^k]$ for some \textit{k}, or we have jumped out of the array since $i+2^k>n$.\\
-Then we perform a \textit{binary search} \brref{sec:binsearch} for $b_j$ between $A[i+2^{k-1}]$ and $A[min(i+2^k, n)]$. $A[0, i+2^{k-1}]$ will be discarded from the subsequent searches.\\
+Also called \textit{exponential search} or \textit{galloping search}, this paradigm is more or less what we presented in the search algorithm \textit{exponential search} \brref{sec:expsearch}: assuming $m=|B| \leq n=|A|$, we search of each element $b_j$ of \textit{B} into \textit{A} by jumping trough it with exponentially bigger steps that increase by a factor of $2^k$, meaning that we compare $b_j$ with $A[0]$, $A[1]$, $A[2]$, $A[4]$, $A[8]$, $A[16]$, $A[32]$, and so on, until we find that either $b_j<A\left[i+2^k\right]$ for some \textit{k}, or we have jumped out of the array since $i+2^k>n$.\\
+Then we perform a \textit{binary search} \brref{sec:binsearch} for $b_j$ between $A\left[i+2^{k-1}\right]$ and $A\left[min\left(i+2^k, n\right)\right]$. $A\left[0, i+2^{k-1}\right]$ will be discarded from the subsequent searches.\\
 The pseudocode of the algorithm can be seen at \textit{Algorithm} \brref{alg:galloping}, which is a bit different from the one we saw in \textit{exponential search} section \brref{sec:expsearch}, so it can be seen as an extra resource. Both works very similarly.
 
 Correctness is again immediate, while deriving time complexity will require some reasoning: we denote with $\Delta_i$ the size of the sub-array of \textit{A} where $b_j$ could be found.
 We then say that:
 \begin{itemize} 
     \item $b_j \geq i+2^{k-1}$ i.e. previous step
-    \item $b_j<min(i+2^k,n)$ i.e. current step or end of \textit{A}
+    \item $b_j<min\left(i+2^k,n\right)$ i.e. current step or end of \textit{A}
 \end{itemize}
 
-We can therefore write $2^{k-1} \leq i-(i-1)$ where \textit{i} and \textit{(i-1)} are current and previous step respectively, and combining this inequality with $\Delta_i$ we get $\Delta_i \leq 2^{k-1} \leq i-(i-1)$. \\
+We can therefore write $2^{k-1} \leq i-(i-1)$ where $i$ and $(i-1)$ are current and previous step respectively, and combining this inequality with $\Delta_i$ we get $\Delta_i \leq 2^{k-1} \leq i-(i-1)$. \\
 At this point we can estimate the total lengt of search sub-arrays of \textit{A}: $\sum_{i=1}^{m} \Delta_i \leq \sum_{i=1}^{m} (i-(i-1)) \leq n$, because the latter is a telescopic sum in wich consecutive terms cancel out.\\
-For every \textit{i}, the algorithm executes $O(1+ \log \Delta_i)$ steps, thus summing for $i = 1,2,...,m$ (since $m=|B|$) we get a total time complexity of $\sum_{i=1}^m O(1+ \log \Delta_i)=O(\sum_{i=1}^{m}(1+log \Delta_i))=O(m+m \log \sum_{i=1}^m \frac{\Delta_i}{m})=O(m(1+ \log \frac{n}{m}))$.\\
-This is the same time complexity we got for the \textit{divide and search} \brref{alg:divandsearch} algorithm, but this present algorithm paradigm is iterative, thus does not require dynamic memory allocation. Moreover, it calls the \textit{binary search} \brref{sec:binsearch} on a sub-array of \textit{A} needing less disk accesses.
+For every \textit{i}, the algorithm executes $O\left(1+ \log \Delta_i\right)$ steps, thus summing for $i = 1,2,...,m$ (since $m=|B|$) we get a total time complexity of $\sum_{i=1}^m O\left(1+ \log \Delta_i\right)=O\left(\sum_{i=1}^{m}\left(1+log \Delta_i\right)\right)=O\left(m+m \log \sum_{i=1}^m \frac{\Delta_i}{m}\right)=O\left(m\left(1+ \log \frac{n}{m}\right)\right)$.\\
+This is the same time complexity we got from the \textit{divide and search} \brref{alg:divandsearch} algorithm, except with a iterative paradigm, which thus does not require dynamic memory allocation. Moreover, it calls the \textit{binary search} \brref{sec:binsearch} on a sub-array of \textit{A} needing less disk accesses. Unfortunately, it falls short with very large lists, since galloping through them may require moving them in chunks back and forth from memory. It would thus be ideal to \textit{compress} in some way the vector \textit{A}.\\
 
 \begin{algorithm}
     \captionsetup{labelsep=newline}
@@ -224,10 +224,10 @@ This is the same time complexity we got for the \textit{divide and search} \brre
         \State Let $i=0$
         \ForAll{$j=0$ to $m-1$}
             \State Let $k=0$
-            \While{$B[j] > A[i+2^k]$ and $i+2^k \leq n$}
+            \While{$B\big[j\big] > A\big[i+2^k\big]$ and $i+2^k \leq n$}
                 \State $k=k+1$ \Comment Increment exponent
             \EndWhile
-            \State $i'$ = \textit{binary search} into $A[i+2^{k-1}+1, min(i+2^k),n]$
+            \State $i'$ = \textit{binary search} into $A\left[i+2^{k-1}+1, min\left(i+2^k\right),n\right]$
             \If{$a_{i'}=b_j$}
                 \State Add $b_j$ to result
             \EndIf
@@ -235,3 +235,32 @@ This is the same time complexity we got for the \textit{divide and search} \brre
         \EndFor
     \end{algorithmic}
 \end{algorithm}
+
+\subsection{Two-Level Storage Approach}
+
+Since most of the time we can imagine physical data as divided in two, namely cache and RAM, engineers took advantage of this by adopting a two-level storage approach: the main idea is to preprocess a collection of lists, locally partitioning each of them into blocks of size \textit{L} (final block may be shorter), and copy the first element of each block into an auxiliary sequence. We then merge them and use them to compute the intersection: block $merged\_list[i+1]$ will contain elements in the block $merged\_list[i]$.\\
+Lets see a simplified implementation where we preprocess only the longer sequence: lets say we have two lists such that $m=|B| \leq n=|A|$, we then divide \textit{A} in $\left\lceil \frac{n}{L} \right\rceil$ blocks of size \textit{L} and we save the first element of each block, called \textit{guides}, in a new list $A'$. \\
+We then use the \textit{merge procedure} (which can be seen \href{https://en.wikipedia.org/wiki/Merge_algorithm}{here}) to merge $A'$ and \textit{B} into a new list \textit{Merged}, which will contain each \textit{guide} of \textit{A} and all elements of \textit{B} interspersed between them. The list is, of course, sorted.\\
+Now we can find the elements of \textit{B} in the respective preceding \textit{guide} of \textit{A}, and have effectively compressed \textit{A}. Lets clarify, we have:
+
+\begin{itemize}
+    \item $Merged[k] = A[i]$
+    \item $Merged[k+1 \ldots k+\alpha] = B[j \ldots j+\alpha]$
+    \item $Merged[k+\alpha +1] = A[i+1]$
+\end{itemize}
+
+Thus the elements of \textit{B}, $b_j \ldots b_{j+\alpha}$ can all be found in the block of \textit{guide} $A[i]$.
+
+Regarding time complexity, creating the list of \textit{guides} takes linear time over the size of \textit{A}. We then apply the \textit{merge procedure} to fuse together $A'$ and \textit{B} in $O\left(\frac{n}{L} +m \right)$ time, and finally we search for $b_j \ldots b_{j+\alpha}$ in the block of \textit{guide} $A[i]$ using the \textit{bunny race} \brref{sec:bunnyrace} algorithm in time $O\left(|A_i| + |B_j|\right) = O\left(L+|B_j|\right)$ where $|A_i| = \big|A[i \ldots i+1]\big|$ and $|B_j| = \big|B[j \ldots j+\alpha]\big|$.\\
+This algorithm is executed over all non-empty pairs $(A_i, B_j)$, which are no more than \textit{m} since $B = \cup_j B_j$, thus the total time taken by this step is $O(Lm+m)$.\\
+Summing up the time complexity of all steps we get that the algorithm has:
+
+\begin{itemize}
+    \item $O \left( \frac{n}{L} +mL \right)$ Time complexity
+    \item $O \left( \frac{n}{LB} + \frac{mL}{B} +m \right)$ I/Os 
+\end{itemize}
+
+Were \textit{B} is the disk-page size of the two-level memory model.
+
+
+
