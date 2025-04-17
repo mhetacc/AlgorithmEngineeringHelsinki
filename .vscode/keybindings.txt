@@ -11,5 +11,9 @@ needs to be placed into keybindgs.json
     {
         "key": "ctrl+alt+p",
         "command": "macros.markdown_code_block"
+    },
+    {
+        "key": "ctrl+m",
+        "command": "macros.latex_math"
     }
 ]

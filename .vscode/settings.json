@@ -18,6 +18,15 @@
             },
             "cursorLeft"
         ],
+        "latex_math": [
+            {
+                "command": "type",
+                "args": {
+                    "text": "$$"
+                }
+            },
+            "cursorLeft"
+        ],
         "markdown_code_block": [
             {
                 "command": "type",
