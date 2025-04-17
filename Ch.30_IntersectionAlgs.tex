@@ -310,7 +310,7 @@ To avoid the cost of sorting each intermediate result, a minor variant can be us
     \end{algorithmic}
 \end{algorithm}
 
-\subsection{Sequential and Random Sequential}
+\subsection{Sequential and Random Sequential \label{sec:sequential}}
 
 \begin{wrapfigure}{r}{0.5\textwidth} %this figure will be at the right
     \centering
@@ -366,7 +366,7 @@ Another version of the algorithm, which considers also the eliminator and theref
     \end{algorithmic}
 \end{algorithm}
 
-\subsection{SvS and Swapping SvS}
+\subsection{SvS and Swapping SvS \label{sec:svs}}
 
 \begin{figure}[H] 
     \begin{center}
@@ -375,18 +375,33 @@ Another version of the algorithm, which considers also the eliminator and theref
     \end{center}
 \end{figure}
 
-\textit{SvS} is a widely used algorithm which, starting from a collection of sorted sets $S_0 \ldots \S_k$, ordered by size (ascending), computes the intersection by iteratively reducing the search space.\\
-We first instantiate a value $\ell=0$ for all sets, which will be used to keep track of the last checked element in each set, acting as a sort of logical start position.\\
-Then we pick elements from the smallest set $S_0$ and search for them in the second smallest set, updating $\ell$ as we go: if $key=10$ and $S_j[\alpha]=9$ then we won't need to ever check $S_j[0 \ldots \alpha]$. We can use any search algorithm we want. \\
+\textit{SvS} is a widely used algorithm which, starting from a collection of sorted sets $S_0 \ldots S_k$, ordered by size (ascending), computes the intersection by iteratively reducing the search space.\\
+We first instantiate a value $\ell=0$ for all sets, which will be used to keep track of the last checked element in each set, acting as a sort of logical starting position, then, we pick elements from the smallest set $S_0$ and search for them in the other sets, updating $\ell$ as we go: if $key=10$ and $S_j[\alpha]=9$ then we won't need to ever check $S_j[0 \ldots \alpha]$. We can use any search algorithm we want. \\
 Its variant pick the next search element from the new smallest set instead than picking all of them from the original $S_0$.
 
-The pseudocode of the algorithm can be seen at \textit{Algorithm} \brref{alg:svds}
+The pseudocode of the algorithm can be seen at \textit{Algorithm} \brref{alg:svs}, and there is one thing worth noting: at the end of its run, the resulting intersection is contained in the smallest \textit{candidate} set $S_0$, wether such intersection exists (thus $S_0=[s_1, \ldots, s_\alpha]$) or not (thus $S_0= \emptyset$).
+
+Once again, complexity is $O\left(k \cdot m^2 \left(1+ \log \frac{n}{m}\right)\right)$ if we decide to use the \textit{galloping search} \brref{galloping}, where $m=|S_0|$ and $n=|S_k|$, but since we update $\ell$ as we go, thus progressively reducing the search space, the algorithm is more efficient than \textit{Sequential} \brref{sec:sequential} in a real-world implementation.\\
 
 \begin{algorithm}
     \captionsetup{labelsep=newline}
     \caption{Pseudocode for doubling search algorithm \label{alg:svs}}
     \begin{algorithmic}[1]
         \State Sort sets by size \big($\big|set[0]\big| \leq \ldots \leq \big|set[k]\big|$\big)
+        \ForAll{$i=0$ to $k-1$}
+            \State Let $\ell[i]=0$ \Comment Set all starting positions to zero
+        \EndFor
+        \ForAll{$key$ in $S_0$}
+            \ForAll{$i=1$ to $k-1$}
+                \State Search for $key$ in $S_i$ in the range $\ell[i]$ to $|S_i|$
+                \State Update $\ell[i]$ to the position of $key$ in $S_i$
+                \If{$key$ not found}
+                    \State Delete $key$ from $S_0$ \Comment $S_0$ is the result in the end
+                \EndIf
+            \EndFor
+        \EndFor
     \end{algorithmic}
 \end{algorithm}
+
+
 
