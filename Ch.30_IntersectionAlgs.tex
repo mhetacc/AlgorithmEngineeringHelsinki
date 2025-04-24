@@ -14,7 +14,7 @@ We will first look at two of the most commonly used search algorithms, since we 
     \end{center}
 \end{figure}
 
-Binary search, also known as logarithmic search or binary chop, is a search algorithm that finds the position of a target value within a sorted array: it compares the target to the middle element of the array and, if they are not equal, it eliminates half of the search space by discarding either the left or right half, depending on whether the target value is less than or greater than the middle element. This process is repeated by iteratively searching into the remaining sub-array until the target value is found or the search space is empty. The pseudocode for the algorithm can be seen at \textit{Algorothm} \brref{alg:binsearch}.\\
+Binary search, also known as logarithmic search or binary chop, is a search algorithm that locates the position of a target value within a sorted array: it compares the target to the middle element of the array and, if they are not equal, it eliminates half of the search space by discarding either the left or right half, depending on whether the target value is less than or greater than the middle element. This process is repeated by iteratively searching into the remaining sub-array until the target value is found or the search space is empty. The pseudocode for the algorithm can be seen at \textit{Algorithm} \brref{alg:binsearch}.\\
 Binary search runs in logarithmic time in the worst case, doing $O(\log n)$ comparisons, where $n$ is the number of elements in the array, making it much faster than linear search with large arrays thanks to its scaling.
 
 \begin{algorithm}
@@ -48,7 +48,7 @@ Binary search runs in logarithmic time in the worst case, doing $O(\log n)$ comp
 \end{figure}
 
 Exponential search, also called doubling or galloping search, is an algorithm for searching sorted, unbounded lists: there are numerous implementations, most common being determining a sub-array into which the \verb|key| may resides in and performing a binary search \brref{sec:binsearch} within its range.\\
-To be more precise: we go trough the list in exponentially increasing steps, with a factor of $2^k$ such that we first look into \verb+list[0]+, then \verb+list[1]+, then \verb+list[2]+, \verb+list[4]+, \verb+list[8]+, following with \textit{16}, \textit{32}, \textit{64}, \textit{128} and so on until we find a value that is greater than the \verb|key|. Once we find it, we perform a binary search between the previous jump and the current (or the end of the array): $2^{k-1} \leq key \leq min(2^{k},n)$.
+To be more precise: we examine the list in exponentially increasing steps, with a factor of $2^k$ such that we first look into \verb+list[0]+, then \verb+list[1]+, then \verb+list[2]+, \verb+list[4]+, \verb+list[8]+, following with \textit{16}, \textit{32}, \textit{64}, \textit{128} and so on until we find a value that is greater than the \verb|key|. Once we find it, we perform a binary search between the previous step and the current (or the end of the array): $2^{k-1} \leq key \leq min(2^{k},n)$.
 
 The algorithm can be more efficient than binary search, as it runs in $O(\log i)$ time, where $i$ is the index of the element being searched for, which could be half if not less than $n$.\\
 The pseudocode can be seen at \textit{Algorithm} \brref{alg:expsearch}.
@@ -72,13 +72,11 @@ The pseudocode can be seen at \textit{Algorithm} \brref{alg:expsearch}.
     \end{algorithmic}
 \end{algorithm}
 
-TODO maye or maybe not 
-
 \section{Intersection Algorithms}
 
 \subsection{Brute Force \label{sec:bruteforce}}
 
-The first idea that would come to mind when thinking about intersecting two lists is to simply iterate through both of them and check if the elements are equal: this is the \textit{brute force} approach, which is simple but inefficient. \\
+The first idea that would come to mind when thinking about intersecting two lists is to simply iterate through both of them and check for matching elements: this is the \textit{brute force} approach, which is simple but inefficient. \\
 With a time complexity of $O(m \cdot n)$, assuming lists sizes $n$ and $m$ to be around $10^6$, and assuming a modern computer able to do $10^9$ operations per second, this algorithm would need ten minutes to compute a 2-words query, which is less than ideal.\\
 The (very short) pseudocode can be seen at \textit{Algorithm} \brref{alg:bruteforce}.
 
@@ -147,7 +145,7 @@ In the case that $n \ll m$ the classic \textit{binary search} can be helpful sin
     \end{center}
 \end{figure}
 
-Also called \textit{mutual partitioning}, this approach adopt a classic algorithmic paradigm, namely \textit{divide and conquer}, famously used to design the \textit{quick sort} algorithm (which can be visualized \href{https://en.wikipedia.org/wiki/Quicksort}{here}).\\
+Also called \textit{mutual partitioning}, this approach adopts a classic algorithmic paradigm, namely \textit{divide and conquer}, famously used to design the \textit{quick sort} algorithm (which can be visualized \href{https://en.wikipedia.org/wiki/Quicksort}{here}).\\
 Let us assume $m=|B| \leq n=|A|$. We select the median element of $B$, $b_{m/2}$, as a \textit{pivot} and search for it in the longer sequence $A$ using the \textit{binary search} \brref{sec:binsearch} algorithm.
 Two cases may occur: 
 
@@ -210,7 +208,7 @@ We then say that:
 \end{itemize}
 
 We can therefore write $2^{k-1} \leq i-(i-1)$ where $i$ and $(i-1)$ are current and previous step respectively, and combining this inequality with $\Delta_i$ we get $\Delta_i \leq 2^{k-1} \leq i-(i-1)$. \\
-At this point we can estimate the total lengt of search sub-arrays of \textit{A}: $\sum_{i=1}^{m} \Delta_i \leq \sum_{i=1}^{m} (i-(i-1)) \leq n$, because the latter is a telescopic sum in wich consecutive terms cancel out.\\
+At this point we can estimate the total length of search sub-arrays of \textit{A}: $\sum_{i=1}^{m} \Delta_i \leq \sum_{i=1}^{m} (i-(i-1)) \leq n$, because the latter is a telescopic sum in which consecutive terms cancel out.\\
 For every \textit{i}, the algorithm executes $O\left(1+ \log \Delta_i\right)$ steps, thus summing for $i = 1,2,...,m$ (since $m=|B|$) we get a total time complexity of:\\
 $\sum_{i=1}^m O\left(1+ \log \Delta_i\right)=O\left(\sum_{i=1}^{m}\left(1+log \Delta_i\right)\right)=O\left(m+m \log \sum_{i=1}^m \frac{\Delta_i}{m}\right)=O\left(m\left(1+ \log \frac{n}{m}\right)\right)$.\\
 This is the same time complexity we got from the \textit{divide and search} \brref{alg:divandsearch} algorithm, except with a iterative paradigm, which thus does not require dynamic memory allocation. Moreover, it calls the \textit{binary search} \brref{sec:binsearch} on a sub-array of \textit{A} needing less disk accesses. Unfortunately, it falls short with very large lists, since galloping through them may require moving them in chunks back and forth from memory. It would thus be ideal to \textit{compress} in some way the vector \textit{A}.
@@ -245,7 +243,7 @@ This is the same time complexity we got from the \textit{divide and search} \brr
 \end{figure}
 
 Since most of the time we can consider physical memory as divided in two, namely cache and RAM, engineers took advantage of this by adopting a two-level storage approach: the main idea is to preprocess a collection of lists, logically partitioning each of them into blocks of size \textit{L} (final block may be shorter), and copying the first element of each block into an auxiliary sequence. Then, merge them and compute the intersection: elements of block $merged\_list[i+1]$ will be contained (if present) in block $merged\_list[i]$.\\
-Lets see a simplified implementation where we preprocess only the longer sequence: say we have two lists such that $m=|B| \leq n=|A|$, we then divide \textit{A} in $\left\lceil \frac{n}{L} \right\rceil$ blocks of size \textit{L} and we save the first element of each block, called \textit{guides}, in a new list $A'$, effectively compressing the original list. \\
+Let's see a simplified implementation where we preprocess only the longer sequence: say we have two lists such that $m=|B| \leq n=|A|$, we then divide \textit{A} in $\left\lceil \frac{n}{L} \right\rceil$ blocks of size \textit{L} and we save the first element of each block, called \textit{guides}, in a new list $A'$, effectively compressing the original list. \\
 We then use the \textit{merge procedure} (which can be seen \href{https://en.wikipedia.org/wiki/Merge_algorithm}{here}) to merge $A'$ and \textit{B} into a new list \textit{Merged}, which will contain each \textit{guide} of \textit{A} and all elements of \textit{B} interspersed between them. The list is, of course, sorted.\\
 Now we can find the elements of \textit{B} in the respective preceding \textit{guide} of \textit{A}. Lets clarify, we have:
 
@@ -270,7 +268,7 @@ Were \textit{B} is the disk-page size of the two-level memory model.
 
 \section{Melding Algorithms}
 
-All the algorithms that we have seen until this point concern themselves with intersecting only two lists, even though they are easily extendable to \textit{k} list intersections. Now we will see a collection of algorithms that can be used to intersect \textit{k} sets. Most of the algorithm shown are taken from the article "An Experimental Investigation of Set Intersection Algorithms for Text Searching" by Birbay and López-Ortiz \citep{birbay_ortiz}.
+"The algorithms discussed so far focus on intersecting two lists, even though they are easily extendable to \textit{k} lists intersections. Now we will see a collection of algorithms that can be used to intersect \textit{k} sets. Most of the algorithm shown are taken from the article "An Experimental Investigation of Set Intersection Algorithms for Text Searching" by Birbay and López-Ortiz \citep{birbay_ortiz}.
 
 \subsection{Baeza-Yates and Baeza-Yates Sorted \label{sec:baezayates}}
 
@@ -377,7 +375,7 @@ Another version of the algorithm, which considers also the eliminator and theref
 
 \textit{SvS} is a widely used algorithm which, starting from a collection of sorted sets $S_0 \ldots S_k$, ordered by size (ascending), computes the intersection by iteratively reducing the search space.\\
 We first instantiate a value $\ell=0$ for all sets, which will be used to keep track of the last checked element in each set, acting as a sort of logical starting position, then, we pick elements from the smallest set $S_0$ and search for them in the other sets, updating $\ell$ as we go: if $key=10$ and $S_j[\alpha]=9$ then we won't need to ever check $S_j[0 \ldots \alpha]$. We can use any search algorithm we want. \\
-Its variant pick the next search element from the new smallest set instead than picking all of them from the original $S_0$.
+Its variant picks the next search element from the new smallest set instead than going through all the elements of the first smallest set (the "original" $S_0$).
 
 The pseudocode of the algorithm can be seen at \textit{Algorithm} \brref{alg:svs}, and there is one thing worth noting: at the end of its run, the resulting intersection is contained in the smallest \textit{candidate} set $S_0$, wether such intersection exists (thus $S_0=[s_1, \ldots, s_\alpha]$) or not (thus $S_0= \emptyset$).
 
@@ -413,7 +411,7 @@ Once again, complexity is $O\left(k \cdot m^2 \left(1+ \log \frac{n}{m}\right)\r
 \end{figure}
 
 Proposed by Birbay et al. in their article \citep{birbay_ortiz}, \textit{Small Adaptive} is a hybrid algorithm which combines properties from various others: we start from a collection of sets ordered by size (ascending), then we pick an element to search for (say $e$) from the smallest set $S_0$ and we perform an \textit{exponential search} \brref{sec:expsearch} on the second smallest set $S_1$. If we find it, we look for it in the remaining $k-2$ sets, deleting already-seen elements as we go, thus progressively reducing the search space. \\
-The algorithm, after each search on a set $S_i$, pick the next smallest one and keeps ordering the sets so that, after a full search, it may be that $S_0$ and $S_1$ are different sets from before.
+The algorithm, after each search on a set $S_i$, picks the next smallest one and keeps ordering the sets so that, after a full search, it may be that $S_0$ and $S_1$ are different sets from before.
 
 Pseudocode can be seen at \textit{Algorithm} \brref{alg:smalladaptive}, while the time complexity is almost identical to \textit{SvS} \brref{sec:svs} or \textit{Sequential} \brref{sec:sequential} (except for the ordering), but thanks to the ideas of: \textit{i.} searching first on the second smallest list before looking trough the rest; \textit{ii.} re-ordering the sets so we always first search into the two smallest and; \textit{iii.} deleting already-seen elements; \textit{Small Adaptive} can be more efficient in practice (although \textit{SvS} still outperforms it often). 
 
