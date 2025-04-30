@@ -198,7 +198,7 @@ That being said, despite its optimal time complexity, the mutual-partitioning pa
 
 Also called \textit{exponential search} or \textit{galloping search}, this paradigm is more or less what we presented in the search algorithm \textit{exponential search} \ref{sec:expsearch}: assuming $m=|B| \leq n=|A|$, we search of each element $b_j$ of \textit{B} into \textit{A} by jumping trough it with exponentially bigger steps that increase by a factor of $2^k$, meaning that we compare $b_j$ with $A[0]$, $A[1]$, $A[2]$, $A[4]$, $A[8]$, $A[16]$, $A[32]$, and so on, until we find that either $b_j<A\left[i+2^k\right]$ for some \textit{k}, or we have jumped out of the array since $i+2^k>n$.\\
 Then we perform a \textit{binary search} \ref{sec:binsearch} for $b_j$ between $A\left[i+2^{k-1}\right]$ and $A\left[min\left(i+2^k, n\right)\right]$. $A\left[0, i+2^{k-1}\right]$ will be discarded from the subsequent searches.\\
-The pseudocode of the algorithm can be seen at \textit{Algorithm} \ref{alg:galloping}, which is a bit different from the one we saw in \textit{exponential search} section \ref{sec:expsearch}, so it can be seen as an extra resource. Both works very similarly.
+The pseudocode of the algorithm can be seen at \textit{Algorithm} \ref{alg:galloping}, which is a bit different from the one we saw in \textit{exponential search} Section \ref{sec:expsearch}, so it can be seen as an extra resource. Both works very similarly.
 
 Correctness is again immediate, while deriving time complexity will require some reasoning: we denote with $\Delta_i$ the size of the sub-array of \textit{A} where $b_j$ could be found.
 We then say that:

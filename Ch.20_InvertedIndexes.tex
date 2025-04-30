@@ -52,7 +52,7 @@ Now that we have a set of word tokens, we can start building our inverted indexe
 We can change the granularity by adding the frequency of the word in the document, which can be useful for query optimization, or by adding the word position in the document, allowing for in-document queries.\\
 Space used by inverted indexes varies wildly in the range of five to one hundred percent (5-100\%) of the total size of the document indexed, and this is because implementations come in many different variations: some store word positions and some don't, some aggressively pre-process documents and some don't, some dynamically update themselves and some don't, some use complex and powerful compression methods and some don't, and so on. 
 
-Table \ref{tab:sample_docs} show some sample documents, while table \ref{tab:inverted_lists} shows some examples of inverted indexes, with different levels of granularity.
+Table \ref{tab:sample_docs} show some sample documents, while Table \ref{tab:inverted_lists} shows some examples of inverted indexes, with different levels of granularity.
 
 \begin{table}[ht]
     \begin{center}
