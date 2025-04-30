@@ -13,7 +13,7 @@ In this survey-style paper we will first explain what searching (i.e., querying)
 \end{figure}
 
 
-Generally speaking, a query is called a \textit{bag of words}, and finding its result means computing which documents contain all word tokens that are being searched for \brref{fig:bagtodocs}. Let's make and example: word \verb+abiura+ is contained in documents number \verb+[31, 42, 127]+, while word \verb+bitonto+ is contained in documents number \verb+[20, 42, 72]+. \\
+Generally speaking, a query is called a \textit{bag of words}, and finding its result means computing which documents contain all word tokens that are being searched for \ref{fig:bagtodocs}. Let's make and example: word \verb+abiura+ is contained in documents number \verb+[31, 42, 127]+, while word \verb+bitonto+ is contained in documents number \verb+[20, 42, 72]+. \\
 Thus \verb|query = (abiura,bitonto)| will return the result \verb+42+. \\
 
 \begin{figure}[ht] 
@@ -23,6 +23,6 @@ Thus \verb|query = (abiura,bitonto)| will return the result \verb+42+. \\
 \end{center}
 \end{figure}
 
-Both The example above \brref{fig:table_wtokens} and all the algorithms we will see in this survey consider the problem of searching as the problem of complete intersection, but modern search engine (e.g., Google)  leverage input relevance and filter unneeded outputs to obtain faster and better results. Unfortunately finding information about how they do it is near impossible, since everything is covered by trade secret. \\
+Both The example above \ref{fig:table_wtokens} and all the algorithms we will see in this survey consider the problem of searching as the problem of complete intersection, but modern search engine (e.g., Google)  leverage input relevance and filter unneeded outputs to obtain faster and better results. Unfortunately finding information about how they do it is near impossible, since everything is covered by trade secret. \\
 Let's now see what inverted indexes are and how we can obtain them starting from a document corpus.
 

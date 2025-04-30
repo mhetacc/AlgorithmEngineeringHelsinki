@@ -14,7 +14,7 @@ We will first look at two of the most commonly used search algorithms, since we 
     \end{center}
 \end{figure}
 
-Binary search, also known as logarithmic search or binary chop, is a search algorithm that locates the position of a target value within a sorted array: it compares the target to the middle element of the array and, if they are not equal, it eliminates half of the search space by discarding either the left or right half, depending on whether the target value is less than or greater than the middle element. This process is repeated by iteratively searching into the remaining sub-array until the target value is found or the search space is empty. The pseudocode for the algorithm can be seen at \textit{Algorithm} \brref{alg:binsearch}.\\
+Binary search, also known as logarithmic search or binary chop, is a search algorithm that locates the position of a target value within a sorted array: it compares the target to the middle element of the array and, if they are not equal, it eliminates half of the search space by discarding either the left or right half, depending on whether the target value is less than or greater than the middle element. This process is repeated by iteratively searching into the remaining sub-array until the target value is found or the search space is empty. The pseudocode for the algorithm can be seen at \textit{Algorithm} \ref{alg:binsearch}.\\
 Binary search runs in logarithmic time in the worst case, doing $O(\log n)$ comparisons, where $n$ is the number of elements in the array, making it much faster than linear search with large arrays thanks to its scaling.
 
 \begin{algorithm}
@@ -47,11 +47,11 @@ Binary search runs in logarithmic time in the worst case, doing $O(\log n)$ comp
     \end{center}
 \end{figure}
 
-Exponential search, also called doubling or galloping search, is an algorithm for searching sorted, unbounded lists: there are numerous implementations, most common being determining a sub-array into which the \verb|key| may resides in and performing a binary search \brref{sec:binsearch} within its range.\\
+Exponential search, also called doubling or galloping search, is an algorithm for searching sorted, unbounded lists: there are numerous implementations, most common being determining a sub-array into which the \verb|key| may resides in and performing a binary search \ref{sec:binsearch} within its range.\\
 To be more precise: we examine the list in exponentially increasing steps, with a factor of $2^k$ such that we first look into \verb+list[0]+, then \verb+list[1]+, then \verb+list[2]+, \verb+list[4]+, \verb+list[8]+, following with \textit{16}, \textit{32}, \textit{64}, \textit{128} and so on until we find a value that is greater than the \verb|key|. Once we find it, we perform a binary search between the previous step and the current (or the end of the array): $2^{k-1} \leq key \leq min(2^{k},n)$.
 
 The algorithm can be more efficient than binary search, as it runs in $O(\log i)$ time, where $i$ is the index of the element being searched for, which could be half if not less than $n$.\\
-The pseudocode can be seen at \textit{Algorithm} \brref{alg:expsearch}.
+The pseudocode can be seen at \textit{Algorithm} \ref{alg:expsearch}.
 
 \begin{algorithm}
     \captionsetup{labelsep=newline}
@@ -78,7 +78,7 @@ The pseudocode can be seen at \textit{Algorithm} \brref{alg:expsearch}.
 
 The first idea that would come to mind when thinking about intersecting two lists is to simply iterate through both of them and check for matching elements: this is the \textit{brute force} approach, which is simple but inefficient. \\
 With a time complexity of $O(m \cdot n)$, assuming lists sizes $n$ and $m$ to be around $10^6$, and assuming a modern computer able to do $10^9$ operations per second, this algorithm would need ten minutes to compute a 2-words query, which is less than ideal.\\
-The (very short) pseudocode can be seen at \textit{Algorithm} \brref{alg:bruteforce}.
+The (very short) pseudocode can be seen at \textit{Algorithm} \ref{alg:bruteforce}.
 
 \begin{algorithm}
     \captionsetup{labelsep=newline}
@@ -110,8 +110,8 @@ If $A[i] < B[j]$, we increment $i$, while if $A[i] > B[j]$, we increment $j$. \\
 This process continues until one of the pointers reaches the end of its respective list.\\
 The correctness can be proven inductively, exploiting the following observation: if $A[i] < B[j]$ then $A[i]$ is smaller than all elements following $B[j]$ in $B$ since its ordered, so $A[i] \notin B$. The other case is symmetric. \\
 In regards to time complexity, we just need to note that at each step the algorithm executes one comparison and advances at least one iterator, thus, given that $n=|A|$ and $m=|B|$, the algorithm runs in no more than $O(n+m)$ time.\\
-This time complexity is significantly better than the \textit{brute force} \brref{alg:bruteforce} approach, since it can compute a 2-word query in $10^{-3}$ seconds. \\
-The pseudocode can be seen at \textit{Algorithm} \brref{alg:bunnyrace}.
+This time complexity is significantly better than the \textit{brute force} \ref{alg:bruteforce} approach, since it can compute a 2-word query in $10^{-3}$ seconds. \\
+The pseudocode can be seen at \textit{Algorithm} \ref{alg:bunnyrace}.
 
 In the case that $n=\Theta (m)$ this algorithm is optimal, because we need to process the smallest set, thus $\Omega(min(n,m))$ is an obvious lower bound. Moreover, this procedure is also optimal in the disk model since it takes $O \left(\frac{n}{B}\right)$ I/Os. \\
 In the case that $n \ll m$ the classic \textit{binary search} can be helpful since we can design an algorithm that search in $A$ for each elements of $B$ in $O(m \log n)$ time, which is better than $O(n+m)$ when $m=o\left(\frac{n}{\log n}\right)$.
@@ -146,7 +146,7 @@ In the case that $n \ll m$ the classic \textit{binary search} can be helpful sin
 \end{figure}
 
 Also called \textit{mutual partitioning}, this approach adopts a classic algorithmic paradigm, namely \textit{divide and conquer}, famously used to design the \textit{quick sort} algorithm (which can be visualized \href{https://en.wikipedia.org/wiki/Quicksort}{here}).\\
-Let us assume $m=|B| \leq n=|A|$. We select the median element of $B$, $b_{m/2}$, as a \textit{pivot} and search for it in the longer sequence $A$ using the \textit{binary search} \brref{sec:binsearch} algorithm.
+Let us assume $m=|B| \leq n=|A|$. We select the median element of $B$, $b_{m/2}$, as a \textit{pivot} and search for it in the longer sequence $A$ using the \textit{binary search} \ref{sec:binsearch} algorithm.
 Two cases may occur: 
 
 \begin{itemize}
@@ -162,10 +162,10 @@ In both cases the algorithm proceeds \textit{recursively} by calling itself on t
 \end{itemize}
 
 In simpler terms: we pick the middle element of the smaller list, search for it in the bigger list, split both lists and repeat the process recursively on the remaining sub-lists, then again, then again, then again, until we reach the base case where each list is of size one.\\
-The pseudocode of the algorithm can be seen at \textit{Algorithm} \brref{alg:divandsearch}.
+The pseudocode of the algorithm can be seen at \textit{Algorithm} \ref{alg:divandsearch}.
 
 Correctness follows, while for evaluating time complexity we need to identify the worst case. \\
-Let us start with the case where \textit{pivot} falls outside \textit{A}, meaning that one of the two parts is empty and thus the corresponding half of \textit{B} can be ignored. So, one \textit{binary search} \brref{sec:binsearch} over \textit{A}, costing $O(\log n)$ time, has discarded half of \textit{B}.\\
+Let us start with the case where \textit{pivot} falls outside \textit{A}, meaning that one of the two parts is empty and thus the corresponding half of \textit{B} can be ignored. So, one \textit{binary search} \ref{sec:binsearch} over \textit{A}, costing $O(\log n)$ time, has discarded half of \textit{B}.\\
 If this keeps occurring in all recursive calls, the total number of them will be $O(\log m)$, which leads us to a time complexity of $O(\log m \log n)$.\\
 On the other hand, if we have both balanced partitions so that $b_{m/2}$ not only falls inside \textit{A} but coincides with the median element $a_{n/2}$, the time complexity can be expressed via the recurrence relation $T(n, m) = O(\log n) + 2T \left(\frac{n}{2}, \frac{m}{2}\right)$, with the base case $T(n,m)=O(1)$ whenever $n,m \leq 1$.\\
 This recurrence has the solution $T(n,m)=O \big(m \big(1+\log \frac{n}{m}\big)\big)$ for each $m \leq n$, which is an optimal time complexity in the comparison model.
@@ -196,9 +196,9 @@ That being said, despite its optimal time complexity, the mutual-partitioning pa
     \end{center}
 \end{figure}
 
-Also called \textit{exponential search} or \textit{galloping search}, this paradigm is more or less what we presented in the search algorithm \textit{exponential search} \brref{sec:expsearch}: assuming $m=|B| \leq n=|A|$, we search of each element $b_j$ of \textit{B} into \textit{A} by jumping trough it with exponentially bigger steps that increase by a factor of $2^k$, meaning that we compare $b_j$ with $A[0]$, $A[1]$, $A[2]$, $A[4]$, $A[8]$, $A[16]$, $A[32]$, and so on, until we find that either $b_j<A\left[i+2^k\right]$ for some \textit{k}, or we have jumped out of the array since $i+2^k>n$.\\
-Then we perform a \textit{binary search} \brref{sec:binsearch} for $b_j$ between $A\left[i+2^{k-1}\right]$ and $A\left[min\left(i+2^k, n\right)\right]$. $A\left[0, i+2^{k-1}\right]$ will be discarded from the subsequent searches.\\
-The pseudocode of the algorithm can be seen at \textit{Algorithm} \brref{alg:galloping}, which is a bit different from the one we saw in \textit{exponential search} section \brref{sec:expsearch}, so it can be seen as an extra resource. Both works very similarly.
+Also called \textit{exponential search} or \textit{galloping search}, this paradigm is more or less what we presented in the search algorithm \textit{exponential search} \ref{sec:expsearch}: assuming $m=|B| \leq n=|A|$, we search of each element $b_j$ of \textit{B} into \textit{A} by jumping trough it with exponentially bigger steps that increase by a factor of $2^k$, meaning that we compare $b_j$ with $A[0]$, $A[1]$, $A[2]$, $A[4]$, $A[8]$, $A[16]$, $A[32]$, and so on, until we find that either $b_j<A\left[i+2^k\right]$ for some \textit{k}, or we have jumped out of the array since $i+2^k>n$.\\
+Then we perform a \textit{binary search} \ref{sec:binsearch} for $b_j$ between $A\left[i+2^{k-1}\right]$ and $A\left[min\left(i+2^k, n\right)\right]$. $A\left[0, i+2^{k-1}\right]$ will be discarded from the subsequent searches.\\
+The pseudocode of the algorithm can be seen at \textit{Algorithm} \ref{alg:galloping}, which is a bit different from the one we saw in \textit{exponential search} section \ref{sec:expsearch}, so it can be seen as an extra resource. Both works very similarly.
 
 Correctness is again immediate, while deriving time complexity will require some reasoning: we denote with $\Delta_i$ the size of the sub-array of \textit{A} where $b_j$ could be found.
 We then say that:
@@ -211,7 +211,7 @@ We can therefore write $2^{k-1} \leq i-(i-1)$ where $i$ and $(i-1)$ are current 
 At this point we can estimate the total length of search sub-arrays of \textit{A}: $\sum_{i=1}^{m} \Delta_i \leq \sum_{i=1}^{m} (i-(i-1)) \leq n$, because the latter is a telescopic sum in which consecutive terms cancel out.\\
 For every \textit{i}, the algorithm executes $O\left(1+ \log \Delta_i\right)$ steps, thus summing for $i = 1,2,...,m$ (since $m=|B|$) we get a total time complexity of:\\
 $\sum_{i=1}^m O\left(1+ \log \Delta_i\right)=O\left(\sum_{i=1}^{m}\left(1+log \Delta_i\right)\right)=O\left(m+m \log \sum_{i=1}^m \frac{\Delta_i}{m}\right)=O\left(m\left(1+ \log \frac{n}{m}\right)\right)$.\\
-This is the same time complexity we got from the \textit{divide and search} \brref{alg:divandsearch} algorithm, except with a iterative paradigm, which thus does not require dynamic memory allocation. Moreover, it calls the \textit{binary search} \brref{sec:binsearch} on a sub-array of \textit{A} needing less disk accesses. Unfortunately, it falls short with very large lists, since galloping through them may require moving them in chunks back and forth from memory. It would thus be ideal to \textit{compress} in some way the vector \textit{A}.
+This is the same time complexity we got from the \textit{divide and search} \ref{alg:divandsearch} algorithm, except with a iterative paradigm, which thus does not require dynamic memory allocation. Moreover, it calls the \textit{binary search} \ref{sec:binsearch} on a sub-array of \textit{A} needing less disk accesses. Unfortunately, it falls short with very large lists, since galloping through them may require moving them in chunks back and forth from memory. It would thus be ideal to \textit{compress} in some way the vector \textit{A}.
 
 \begin{algorithm}
     \captionsetup{labelsep=newline}
@@ -255,7 +255,7 @@ Now we can find the elements of \textit{B} in the respective preceding \textit{g
 
 Thus the elements of \textit{B}, $b_j \ldots b_{j+\alpha}$ can all be found in the block of \textit{guide} $A'[i]$.
 
-Regarding time complexity, creating the list of \textit{guides} takes linear time over the size of \textit{A}. We then apply the \textit{merge procedure} to fuse together $A'$ and \textit{B} in $O\left(\frac{n}{L} +m \right)$ time, and finally we search for $b_j \ldots b_{j+\alpha}$ in the block of \textit{guide} $A[i]$ using the \textit{bunny race} \brref{sec:bunnyrace} algorithm in time $O\left(|A_i| + |B_j|\right) = O\left(L+|B_j|\right)$ where $|A_i|$ is the size of the block of $A'[i]$, and $|B_j| = \big|B[j \ldots j+\alpha]\big|$.\\
+Regarding time complexity, creating the list of \textit{guides} takes linear time over the size of \textit{A}. We then apply the \textit{merge procedure} to fuse together $A'$ and \textit{B} in $O\left(\frac{n}{L} +m \right)$ time, and finally we search for $b_j \ldots b_{j+\alpha}$ in the block of \textit{guide} $A[i]$ using the \textit{bunny race} \ref{sec:bunnyrace} algorithm in time $O\left(|A_i| + |B_j|\right) = O\left(L+|B_j|\right)$ where $|A_i|$ is the size of the block of $A'[i]$, and $|B_j| = \big|B[j \ldots j+\alpha]\big|$.\\
 This algorithm is executed over all non-empty pairs $(A_i, B_j)$, which are no more than \textit{m} since $B = \cup_j B_j$, thus the total time taken by this step is $O(Lm+m)$.\\
 Summing up the time complexity of all steps we get that the algorithm has:
 
@@ -273,8 +273,8 @@ Were \textit{B} is the disk-page size of the two-level memory model.
 \subsection{Baeza-Yates and Baeza-Yates Sorted \label{sec:baezayates}}
 
 One of the oldest algorithms presented in this survey, it is commonly found in the literature as a baseline for comparison, although it does not find much use in the real-world anymore. It was originally intended for the intersection of two sorted lists: it takes the median element of the smaller list and searches for it in the larger list, and it adds it to the result if it finds it.\\   
-Since it will always find either and element (e.g. $b_j$) or a position where it could have been (e.g. $a_i \leq b_j \leq a_{i+1}$), it recursively calls itself on the two sub-lists in which each list can be split according to the median element. This approach is very similar to the \textit{divide and search} \brref{sec:divandsearch} algorithm.\\
-To adapt this algorithm for \textit{k} sets, Baeza-Yates suggests to intersect the lists two-by-two, starting with the first two smallest ones. Since the result of the intersection may not be sorted, the result set needs to be sorted before going to the next list. The pseudocode can be seen at \textit{Algorithm} \brref{alg:baezayates}.
+Since it will always find either and element (e.g. $b_j$) or a position where it could have been (e.g. $a_i \leq b_j \leq a_{i+1}$), it recursively calls itself on the two sub-lists in which each list can be split according to the median element. This approach is very similar to the \textit{divide and search} \ref{sec:divandsearch} algorithm.\\
+To adapt this algorithm for \textit{k} sets, Baeza-Yates suggests to intersect the lists two-by-two, starting with the first two smallest ones. Since the result of the intersection may not be sorted, the result set needs to be sorted before going to the next list. The pseudocode can be seen at \textit{Algorithm} \ref{alg:baezayates}.
 
 To avoid the cost of sorting each intermediate result, a minor variant can be used, called \textit{Baeza-Yates Sorted}, which move the elements to te result only at the last recursive step, ensuring they are added in order.
 
@@ -316,11 +316,11 @@ To avoid the cost of sorting each intermediate result, a minor variant can be us
     \caption{Sequential melding algorithm\label{fig:sequential}}
 \end{wrapfigure}
 
-Introduced by Barbay and Kenyon, it takes a collections of \textit{k} sorted sets ordered by size (ascending). Then it picks elements from the smallest one ($S_0$) and searches for them in the other sets ($S_{1 \ldots k-1}$) via \textit{galloping search} \brref{galloping}, one set at a time. It progressively check whether the element can be found in the set its looking into: if $key=1$ and $S_i[j]=7$ there is no need to keep checking $S_i$.
+Introduced by Barbay and Kenyon, it takes a collections of \textit{k} sorted sets ordered by size (ascending). Then it picks elements from the smallest one ($S_0$) and searches for them in the other sets ($S_{1 \ldots k-1}$) via \textit{galloping search} \ref{galloping}, one set at a time. It progressively check whether the element can be found in the set its looking into: if $key=1$ and $S_i[j]=7$ there is no need to keep checking $S_i$.
 There exists a randomized variants which instead of going through the sets in order, it does so randomly (of course, it only chooses not-yet-checked sets).
 
-The pseudocode of a simplified version can be seen at \textit{Algorithm} \brref{alg:sequential}, which has a time complexity of $O\left(k \cdot m^2 \left(1+ \log \frac{n}{m}\right)\right)$ since it performs \textit{k-galloping searches} for each element of the smallest set. We can let \textit{n} to be the size of the biggest list.\\
-Another version of the algorithm, which considers also the eliminator and therefore is more efficient, can be seen at \textit{Algorithm} \brref{alg:sequential2}.
+The pseudocode of a simplified version can be seen at \textit{Algorithm} \ref{alg:sequential}, which has a time complexity of $O\left(k \cdot m^2 \left(1+ \log \frac{n}{m}\right)\right)$ since it performs \textit{k-galloping searches} for each element of the smallest set. We can let \textit{n} to be the size of the biggest list.\\
+Another version of the algorithm, which considers also the eliminator and therefore is more efficient, can be seen at \textit{Algorithm} \ref{alg:sequential2}.
 
 \begin{algorithm}
     \captionsetup{labelsep=newline}
@@ -377,9 +377,9 @@ Another version of the algorithm, which considers also the eliminator and theref
 We first instantiate a value $\ell=0$ for all sets, which will be used to keep track of the last checked element in each set, acting as a sort of logical starting position, then, we pick elements from the smallest set $S_0$ and search for them in the other sets, updating $\ell$ as we go: if $key=10$ and $S_j[\alpha]=9$ then we won't need to ever check $S_j[0 \ldots \alpha]$. We can use any search algorithm we want. \\
 Its variant picks the next search element from the new smallest set instead than going through all the elements of the first smallest set (the "original" $S_0$).
 
-The pseudocode of the algorithm can be seen at \textit{Algorithm} \brref{alg:svs}, and there is one thing worth noting: at the end of its run, the resulting intersection is contained in the smallest \textit{candidate} set $S_0$, wether such intersection exists (thus $S_0=[s_1, \ldots, s_\alpha]$) or not (thus $S_0= \emptyset$).
+The pseudocode of the algorithm can be seen at \textit{Algorithm} \ref{alg:svs}, and there is one thing worth noting: at the end of its run, the resulting intersection is contained in the smallest \textit{candidate} set $S_0$, wether such intersection exists (thus $S_0=[s_1, \ldots, s_\alpha]$) or not (thus $S_0= \emptyset$).
 
-Once again, complexity is $O\left(k \cdot m^2 \left(1+ \log \frac{n}{m}\right)\right)$ if we decide to use the \textit{galloping search} \brref{galloping}, where $m=|S_0|$ and $n=|S_k|$, but since we update $\ell$ as we go, thus progressively reducing the search space, the algorithm is more efficient than \textit{Sequential} \brref{sec:sequential} in a real-world implementation.
+Once again, complexity is $O\left(k \cdot m^2 \left(1+ \log \frac{n}{m}\right)\right)$ if we decide to use the \textit{galloping search} \ref{galloping}, where $m=|S_0|$ and $n=|S_k|$, but since we update $\ell$ as we go, thus progressively reducing the search space, the algorithm is more efficient than \textit{Sequential} \ref{sec:sequential} in a real-world implementation.
 
 \begin{algorithm}
     \captionsetup{labelsep=newline}
@@ -410,12 +410,12 @@ Once again, complexity is $O\left(k \cdot m^2 \left(1+ \log \frac{n}{m}\right)\r
     \end{center}
 \end{figure}
 
-Proposed by Birbay et al. in their article \citep{birbay_ortiz}, \textit{Small Adaptive} is a hybrid algorithm which combines properties from various others: we start from a collection of sets ordered by size (ascending), then we pick an element to search for (say $e$) from the smallest set $S_0$ and we perform an \textit{exponential search} \brref{sec:expsearch} on the second smallest set $S_1$. If we find it, we look for it in the remaining $k-2$ sets, deleting already-seen elements as we go, thus progressively reducing the search space. \\
+Proposed by Birbay et al. in their article \citep{birbay_ortiz}, \textit{Small Adaptive} is a hybrid algorithm which combines properties from various others: we start from a collection of sets ordered by size (ascending), then we pick an element to search for (say $e$) from the smallest set $S_0$ and we perform an \textit{exponential search} \ref{sec:expsearch} on the second smallest set $S_1$. If we find it, we look for it in the remaining $k-2$ sets, deleting already-seen elements as we go, thus progressively reducing the search space. \\
 The algorithm, after each search on a set $S_i$, picks the next smallest one and keeps ordering the sets so that, after a full search, it may be that $S_0$ and $S_1$ are different sets from before.
 
-Pseudocode can be seen at \textit{Algorithm} \brref{alg:smalladaptive}, while the time complexity is almost identical to \textit{SvS} \brref{sec:svs} or \textit{Sequential} \brref{sec:sequential} (except for the ordering), but thanks to the ideas of: \textit{i.} searching first on the second smallest list before looking trough the rest; \textit{ii.} re-ordering the sets so we always first search into the two smallest and; \textit{iii.} deleting already-seen elements; \textit{Small Adaptive} can be more efficient in practice (although \textit{SvS} still outperforms it often). 
+Pseudocode can be seen at \textit{Algorithm} \ref{alg:smalladaptive}, while the time complexity is almost identical to \textit{SvS} \ref{sec:svs} or \textit{Sequential} \ref{sec:sequential} (except for the ordering), but thanks to the ideas of: \textit{i.} searching first on the second smallest list before looking trough the rest; \textit{ii.} re-ordering the sets so we always first search into the two smallest and; \textit{iii.} deleting already-seen elements; \textit{Small Adaptive} can be more efficient in practice (although \textit{SvS} still outperforms it often). 
 
-A comparison of the algorithms seen in \brref{sec:baezayates}, \brref{sec:sequential}, \brref{sec:svs} and \textit{Small Adaptive}, implemented and run on a collection of both synthetic and real-world-data datasets, can be seen in the tables: \ref{fig:birbay1}, \ref{fig:birbay2}, \ref{fig:birbay3}.
+A comparison of the algorithms seen in \ref{sec:baezayates}, \ref{sec:sequential}, \ref{sec:svs} and \textit{Small Adaptive}, implemented and run on a collection of both synthetic and real-world-data datasets, can be seen in the Tables: \ref{fig:birbay1}, \ref{fig:birbay2}, \ref{fig:birbay3}.
 
 \begin{algorithm}
     \captionsetup{labelsep=newline}

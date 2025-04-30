@@ -16,13 +16,13 @@ Documents go through a series of processing steps before being indexed: they get
     \caption{Lexing: from text to word tokens\label{fig:lorem_lexing}}
 \end{wrapfigure}
 
-The process of transforming a document into a list of tokens, each of which is a single word, si called \textit{lexing} \brref{fig:lorem_lexing}. There often is a maximum length for a single token, as to prevent unbounded index growth in edge cases, and all input is generally first converted into lower-case to normalize it. All non-punctuation characters are added to the list of tokens one by one, and those that exceed a certain size are often pruned (removed from the corpus). It is not entirely clear how Google and other big companies do this step, and it certainly feels strange to think they employ a simple \textit{brute force}, single scan approach, but as mentioned before it is not easy to find information about it. \\
+The process of transforming a document into a list of tokens, each of which is a single word, si called \textit{lexing} \ref{fig:lorem_lexing}. There often is a maximum length for a single token, as to prevent unbounded index growth in edge cases, and all input is generally first converted into lower-case to normalize it. All non-punctuation characters are added to the list of tokens one by one, and those that exceed a certain size are often pruned (removed from the corpus). It is not entirely clear how Google and other big companies do this step, and it certainly feels strange to think they employ a simple \textit{brute force}, single scan approach, but as mentioned before it is not easy to find information about it. \\
 All of the above works only with alphabetic languages, ideographic ones (e.g., Chinese) need specialized search techniques. 
 
 \subsection{Stemming}
 
 We can consider this step deprecated, since nowadays memory, especially for things like text and arrays (which inverted index basically are), is cheap and bountiful. \\
-The idea is to find a sort of \textit{root} (stem) of the words, and indexing that instead. To make an example: fishnet, fishery, fishing, fishy, fishmonger, can all be boiled down to their stem \textit{fish} \brref{fig:fishstem}. 
+The idea is to find a sort of \textit{root} (stem) of the words, and indexing that instead. To make an example: fishnet, fishery, fishing, fishy, fishmonger, can all be boiled down to their stem \textit{fish} \ref{fig:fishstem}. 
 
 \begin{figure}[ht] 
 \begin{center}
@@ -52,7 +52,7 @@ Now that we have a set of word tokens, we can start building our inverted indexe
 We can change the granularity by adding the frequency of the word in the document, which can be useful for query optimization, or by adding the word position in the document, allowing for in-document queries.\\
 Space used by inverted indexes varies wildly in the range of five to one hundred percent (5-100\%) of the total size of the document indexed, and this is because implementations come in many different variations: some store word positions and some don't, some aggressively pre-process documents and some don't, some dynamically update themselves and some don't, some use complex and powerful compression methods and some don't, and so on. 
 
-Table \brref{tab:sample_docs} show some sample documents, while table \brref{tab:inverted_lists} shows some examples of inverted indexes, with different levels of granularity.
+Table \ref{tab:sample_docs} show some sample documents, while table \ref{tab:inverted_lists} shows some examples of inverted indexes, with different levels of granularity.
 
 \begin{table}[ht]
     \begin{center}
