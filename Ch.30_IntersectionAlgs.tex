@@ -417,8 +417,6 @@ The algorithm, after each search on a set $S_i$, picks the next smallest one and
 
 Pseudocode can be seen at \textit{Algorithm} \ref{alg:smalladaptive}, while the time complexity is almost identical to \textit{SvS} \ref{sec:svs} or \textit{Sequential} \ref{sec:sequential} (except for the ordering), but thanks to the ideas of: \textit{i.} searching first on the second smallest list before looking trough the rest; \textit{ii.} re-ordering the sets so we always first search into the two smallest and; \textit{iii.} deleting already-seen elements; \textit{Small Adaptive} can be more efficient in practice (although \textit{SvS} still outperforms it often). 
 
-A comparison of the algorithms seen in \ref{sec:baezayates}, \ref{sec:sequential}, \ref{sec:svs} and \textit{Small Adaptive}, implemented and run on a collection of both synthetic and real-world-data datasets, can be seen in the Tables: \ref{fig:barbay1}, \ref{fig:barbay2}, \ref{fig:barbay3}.
-
 \begin{algorithm}
     \captionsetup{labelsep=newline}
     \caption{Pseudocode for Small Adaptive melding algorithm \label{alg:smalladaptive} (based on Barbay's article)}
@@ -445,6 +443,23 @@ A comparison of the algorithms seen in \ref{sec:baezayates}, \ref{sec:sequential
         \EndWhile
     \end{algorithmic}
 \end{algorithm}
+
+\section{Experimental Results}
+
+A comparison of the algorithms seen in Sections \ref{sec:baezayates}, \ref{sec:sequential}, \ref{sec:svs} and \ref{sec:smalladaptive}, implemented and run on a collection of both synthetic and real-world-data datasets, can be seen in the Tables: \ref{fig:barbay1}, \ref{fig:barbay2}, \ref{fig:barbay3}. \\
+The tests were performed by Barbay and López-Ortiz on the following datasets:
+\begin{itemize}
+    \item \textbf{Random}: sequence of uniformly distributed random numbers in the range $\left[1, 10^9 \right]$, where $n=[1000, 22000]$ is the length of the longest sequence, and $m=[100, 400]$ is the length of the shortest sequence;
+    \item \textbf{Google}: set of web pages containing $678,760$ text documents for $6.85$ gigabytes of text, with a resulting inverted word index of $2,604,335$ alphanumeric keywords;
+    \item \textbf{TREC GOV2}: approximately $361GB$ of text, which one index associates $38,515,138$ keywords to the references of $25,197,524$ documents.
+\end{itemize}
+
+They used the following hardware:
+\begin{itemize}
+    \item \textbf{INTEL}: a PC running \textit{Linux 2.4.20-31.9} on a processor \textit{Inter(R) Pentium(R) 4} at $2.66GHz$, with $1GB$ of memory and a swap partition of size $4.16GB$;
+    \item \textbf{SUN}: \textit{UltraSparc III} server running \textit{Unix} on 8 processors at $900MHz$ with $16GB$ of RAM.
+\end{itemize}
+
 
 \begin{figure}[h] 
     \begin{center}
