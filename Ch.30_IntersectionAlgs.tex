@@ -19,7 +19,7 @@ Binary search runs in logarithmic time in the worst case, doing $O(\log n)$ comp
 
 \begin{algorithm}
     \captionsetup{labelsep=newline}
-    \caption{Pseudocode for binary search algorithm \label{alg:binsearch}}
+    \caption{Pseudocode for binary search algorithm \label{alg:binsearch} (modified from Wikipedia's version)}
     \begin{algorithmic}[1]
         \State Looking for element $key$
         \State Let $L=0$ \Comment{First half}
@@ -55,7 +55,7 @@ The pseudocode can be seen at \textit{Algorithm} \ref{alg:expsearch}.
 
 \begin{algorithm}
     \captionsetup{labelsep=newline}
-    \caption{Pseudocode for exponential search algorithm \label{alg:expsearch}}
+    \caption{Pseudocode for exponential search algorithm \label{alg:expsearch} (based on algorithm explanation)}
     \begin{algorithmic}[1]
         \State Looking for element $key$
         \State Let $i=0$ 
@@ -82,7 +82,7 @@ The (very short) pseudocode can be seen at \textit{Algorithm} \ref{alg:bruteforc
 
 \begin{algorithm}
     \captionsetup{labelsep=newline}
-    \caption{Pseudocode for brute force algorithm \label{alg:bruteforce}}
+    \caption{Pseudocode for brute force algorithm \label{alg:bruteforce} (based on algorithm explanation)}
     \begin{algorithmic}[1]
         \ForAll{$i=0$ to $n-1$}
             \ForAll{$j=0$ to $m-1$}
@@ -118,7 +118,7 @@ In the case that $n \ll m$ the classic \textit{binary search} can be helpful sin
 
 \begin{algorithm}
     \captionsetup{labelsep=newline}
-    \caption{Pseudocode for bunny race algorithm \label{alg:bunnyrace}}
+    \caption{Pseudocode for bunny race algorithm \label{alg:bunnyrace} (based on algorithm explanation)}
     \begin{algorithmic}[1]
         \State Let $i=0$ 
         \State Let $j=0$ 
@@ -174,7 +174,7 @@ That being said, despite its optimal time complexity, the mutual-partitioning pa
 
 \begin{algorithm}
     \captionsetup{labelsep=newline}
-    \caption{Pseudocode for divide and search algorithm \label{alg:divandsearch}}
+    \caption{Pseudocode for divide and search algorithm \label{alg:divandsearch} (from Ferragina's book)}
     \begin{algorithmic}[1]
         \State Let $m=|B| \leq n=|A|$
         \State Pick \textit{pivot} $p=b_{\lfloor m/2 \rfloor}$
@@ -215,7 +215,7 @@ This is the same time complexity we got from the \textit{divide and search} \ref
 
 \begin{algorithm}
     \captionsetup{labelsep=newline}
-    \caption{Pseudocode for doubling search algorithm \label{alg:galloping}}
+    \caption{Pseudocode for doubling search algorithm \label{alg:galloping} (from Ferragina's book)}
     \begin{algorithmic}[1]
         \State Let $m=|B| \leq n=|A|$
         \State Let $i=0$
@@ -280,7 +280,7 @@ To avoid the cost of sorting each intermediate result, a minor variant can be us
 
 \begin{algorithm}
     \captionsetup{labelsep=newline}
-    \caption{Pseudocode for Baeza-Yates algorithm \label{alg:baezayates}}
+    \caption{Pseudocode for Baeza-Yates algorithm \label{alg:baezayates} (based on Barbay's article)}
     \begin{algorithmic}[1]
         \Function{Baeza-Yates}{set,k}
             \State Sort sets by size \big($\big|set[0]\big| \leq \ldots \leq \big|set[k]\big|$\big)
@@ -326,7 +326,7 @@ Another version of the algorithm, which considers also the eliminator and theref
 
 \begin{algorithm}
     \captionsetup{labelsep=newline}
-    \caption{Pseudocode for Sequential melding algorithm \label{alg:sequential}}
+    \caption{Pseudocode for Sequential melding algorithm \label{alg:sequential} (based on algorithm explanation)}
     \begin{algorithmic}[1]
         \ForAll{$i=0$ to $|S_0|$}
             \State Let $key=S_0[i]$
@@ -346,7 +346,7 @@ Another version of the algorithm, which considers also the eliminator and theref
 
 \begin{algorithm}
     \captionsetup{labelsep=newline}
-    \caption{Pseudocode for Sequential with eliminator algorithm \label{alg:sequential2}}
+    \caption{Pseudocode for Sequential with eliminator algorithm \label{alg:sequential2} (from Barbay's article)}
     \begin{algorithmic}[1]
         \State Let eliminator be $e=S_0[0]$ 
         \State Let $i=1$
@@ -385,7 +385,7 @@ Once again, complexity is $O\left(k \cdot m^2 \left(1+ \log \frac{n}{m}\right)\r
 
 \begin{algorithm}
     \captionsetup{labelsep=newline}
-    \caption{Pseudocode for SvS melding algorithm \label{alg:svs}}
+    \caption{Pseudocode for SvS melding algorithm \label{alg:svs} (based on Barbay's article)}
     \begin{algorithmic}[1]
         \State Sort sets by size \big($\big|set[0]\big| \leq \ldots \leq \big|set[k]\big|$\big)
         \ForAll{$i=0$ to $k-1$}
@@ -421,7 +421,7 @@ A comparison of the algorithms seen in \ref{sec:baezayates}, \ref{sec:sequential
 
 \begin{algorithm}
     \captionsetup{labelsep=newline}
-    \caption{Pseudocode for Small Adaptive melding algorithm \label{alg:smalladaptive}}
+    \caption{Pseudocode for Small Adaptive melding algorithm \label{alg:smalladaptive} (based on Barbay's article)}
     \begin{algorithmic}[1]
         \While{No set is empty}
             \State Sort sets by size \big($\big|set[0]\big| \leq \ldots \leq \big|set[k]\big|$\big)
