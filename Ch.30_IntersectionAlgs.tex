@@ -297,12 +297,12 @@ To avoid the cost of sorting each intermediate result, a minor variant can be us
                 \State\Return $\emptyset$
             \EndIf
             \State Let $m=\frac{(minA+maxA)}{2}$
-            \State Let $median\_A=setA[m]$
+            \State Let $median_A=setA[m]$
             \State Search for $median_A$ in $setB$
-            \If{$median\_A$ found}
-                \State Add $median\_A$ to result
+            \If{$median_A$ found}
+                \State Add $median_A$ to result
             \EndIf
-            \State Let $r$ be the position of $median\_A$ in $setB$
+            \State Let $r$ be the position of $median_A$ in $setB$
             \State Solve the intersection recursively on both sides of $r$ and $m$ in each set
         \EndFunction
     \end{algorithmic}
