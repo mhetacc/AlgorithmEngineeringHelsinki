@@ -26,9 +26,9 @@ Binary search runs in logarithmic time in the worst case, doing $O(\log n)$ comp
         \State Let $R=n-1$ \Comment{Second half}
         \While{$L\leq R$}
             \State $m=\lfloor (L+R)/2 \rfloor$
-            \If{$A[M] < key$}
+            \If{$A[m] < key$}
                 \State let $L=m+1$
-            \ElsIf{$A[M] > key$}
+            \ElsIf{$A[m] > key$}
                 \State $R = m - 1$
             \Else
                 \State \Return $m$ \Comment{Found}
