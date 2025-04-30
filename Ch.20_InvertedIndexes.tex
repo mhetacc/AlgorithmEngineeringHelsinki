@@ -50,7 +50,7 @@ Thankfully they are so common that if saved as differences between consecutive d
 
 Now that we have a set of word tokens, we can start building our inverted indexes (or posting lists): documents are often stored as lists of words, but we invert (hence the name) this concept by storing for each word the list of documents that contain it. There are several variants of this data structure, but at minimum you need to store for each word the list of documents that contain that specific word. \\
 We can change the granularity by adding the frequency of the word in the document, which can be useful for query optimization, or by adding the word position in the document, allowing for in-document queries.\\
-Space used by inverted indexes varies wildly in the range of five to one hundred percent (5-100\%) of the total size of the document indexed, and this is because implementations come in many different variations: some store word positions and some don't, some aggressively pre-process documents and some don't, some dynamically update themselves and some don't, some use complex and powerful compression methods and some don't, and so on. 
+Space used by inverted indexes varies wildly in the range of five to one hundred percent (5-100\%) of the total size of the document indexed, and this is because implementations come in many different variations: some store word positions and some do not, some aggressively pre-process documents and some do not, some dynamically update themselves and some do not, some use complex and powerful compression methods and some do not, and so on. 
 
 Table \ref{tab:sample_docs} show some sample documents, while Table \ref{tab:inverted_lists} shows some examples of inverted indexes, with different levels of granularity.
 
