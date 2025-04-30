@@ -268,7 +268,7 @@ Were \textit{B} is the disk-page size of the two-level memory model.
 
 \section{Melding Algorithms}
 
-"The algorithms discussed so far focus on intersecting two lists, even though they are easily extendable to \textit{k} lists intersections. Now we will see a collection of algorithms that can be used to intersect \textit{k} sets. Most of the algorithm shown are taken from the article "An Experimental Investigation of Set Intersection Algorithms for Text Searching" by Birbay and López-Ortiz \citep{barbay_ortiz}.
+"The algorithms discussed so far focus on intersecting two lists, even though they are easily extendable to \textit{k} lists intersections. Now we will see a collection of algorithms that can be used to intersect \textit{k} sets. Most of the algorithm shown are taken from the article "An Experimental Investigation of Set Intersection Algorithms for Text Searching" by Barbay and López-Ortiz \citep{barbay_ortiz}.
 
 \subsection{Baeza-Yates and Baeza-Yates Sorted \label{sec:baezayates}}
 
@@ -412,12 +412,12 @@ Once again, complexity is $O\left(k \cdot m^2 \left(1+ \log \frac{n}{m}\right)\r
     \end{center}
 \end{figure}
 
-Proposed by Birbay et al. in their article \citep{birbay_ortiz}, \textit{Small Adaptive} is a hybrid algorithm which combines properties from various others: we start from a collection of sets ordered by size (ascending), then we pick an element to search for (say $e$) from the smallest set $S_0$ and we perform an \textit{exponential search} \ref{sec:expsearch} on the second smallest set $S_1$. If we find it, we look for it in the remaining $k-2$ sets, deleting already-seen elements as we go, thus progressively reducing the search space. \\
+Proposed by Barbay et al. in their article \citep{barbay_ortiz}, \textit{Small Adaptive} is a hybrid algorithm which combines properties from various others: we start from a collection of sets ordered by size (ascending), then we pick an element to search for (say $e$) from the smallest set $S_0$ and we perform an \textit{exponential search} \ref{sec:expsearch} on the second smallest set $S_1$. If we find it, we look for it in the remaining $k-2$ sets, deleting already-seen elements as we go, thus progressively reducing the search space. \\
 The algorithm, after each search on a set $S_i$, picks the next smallest one and keeps ordering the sets so that, after a full search, it may be that $S_0$ and $S_1$ are different sets from before.
 
 Pseudocode can be seen at \textit{Algorithm} \ref{alg:smalladaptive}, while the time complexity is almost identical to \textit{SvS} \ref{sec:svs} or \textit{Sequential} \ref{sec:sequential} (except for the ordering), but thanks to the ideas of: \textit{i.} searching first on the second smallest list before looking trough the rest; \textit{ii.} re-ordering the sets so we always first search into the two smallest and; \textit{iii.} deleting already-seen elements; \textit{Small Adaptive} can be more efficient in practice (although \textit{SvS} still outperforms it often). 
 
-A comparison of the algorithms seen in \ref{sec:baezayates}, \ref{sec:sequential}, \ref{sec:svs} and \textit{Small Adaptive}, implemented and run on a collection of both synthetic and real-world-data datasets, can be seen in the Tables: \ref{fig:birbay1}, \ref{fig:birbay2}, \ref{fig:birbay3}.
+A comparison of the algorithms seen in \ref{sec:baezayates}, \ref{sec:sequential}, \ref{sec:svs} and \textit{Small Adaptive}, implemented and run on a collection of both synthetic and real-world-data datasets, can be seen in the Tables: \ref{fig:barbay1}, \ref{fig:barbay2}, \ref{fig:barbay3}.
 
 \begin{algorithm}
     \captionsetup{labelsep=newline}
@@ -448,27 +448,27 @@ A comparison of the algorithms seen in \ref{sec:baezayates}, \ref{sec:sequential
 
 \begin{figure}[h] 
     \begin{center}
-        \includegraphics[width=.8\textwidth]{imgs/birbay_table3.png}
+        \includegraphics[width=.8\textwidth]{imgs/barbay_table3.png}
         \caption{Total number of comparisons and CPU times performed by each algorithm over the Random data set. In bold, the best
         performance in terms of the number of comparisons, for various melding algorithms in combination with \textit{Extrapol\_Ahead}, and
-        the best performance in terms of CPU: \textit{BaezaYates} using \textit{Adaptive\_Binary}. \citep{birbay_ortiz} \label{fig:birbay1}}
+        the best performance in terms of CPU: \textit{BaezaYates} using \textit{Adaptive\_Binary}. \citep{barbay_ortiz} \label{fig:barbay1}}
     \end{center}
 \end{figure}
 
 \begin{figure}[h] 
     \begin{center}
-        \includegraphics[width=.8\textwidth]{imgs/birbay_table5.png}
+        \includegraphics[width=.8\textwidth]{imgs/barbay_table5.png}
         \caption{Total number of comparisons and CPU times (in millions of cycles) performed by each algorithm over the Google data set.
         In bold, the best performance in terms of number of comparisons, \textit{SvS} and \textit{Swapping\_SvS} using \textit{Extrapol\_Ahead}, and in terms
-        of CPU times, \textit{SvS} using \textit{Galloping}. \citep{birbay_ortiz} \label{fig:birbay2}}
+        of CPU times, \textit{SvS} using \textit{Galloping}. \citep{barbay_ortiz} \label{fig:barbay2}}
     \end{center}
 \end{figure}
 
 \begin{figure}[h] 
     \begin{center}
-        \includegraphics[width=.8\textwidth]{imgs/birbay_table7.png}
+        \includegraphics[width=.8\textwidth]{imgs/barbay_table7.png}
         \caption{Total CPU time performed by each algorithm over the TREC GOV2 data set. In bold, the smallest CPU times on the INTEL
         platform, obtained using \textit{Swapping\_SvS}; and on the SUN platform, obtained using \textit{SvS}, both in combination with \textit{Galloping}
-        search. \citep{birbay_ortiz} \label{fig:birbay3}}
+        search. \citep{barbay_ortiz} \label{fig:barbay3}}
     \end{center}
 \end{figure}
